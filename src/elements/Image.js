@@ -2,24 +2,31 @@ import React from "react";
 import styled from "styled-components";
 
 const Image = props => {
-  const { shape, src, size } = props;
+  // new : width, height, margin
+  const { shape, src, size, width, height, margin } = props;
 
   const styles = {
-    src: src,
-    size: size,
+    src,
+    size,
+    width,
+    height,
+    margin,
+  };
+
+  if (shape === "circle") {
+    return <ImageCircle {...styles}></ImageCircle>;
   }
-  
-  if(shape === "circle") {
-    return (
-      <ImageCircle {...styles}></ImageCircle>
-    )
-  }
-  if(shape === "rectangle") {
+  if (shape === "square") {
     return (
       <AspectOutter>
         <AspectInner {...styles}></AspectInner>
       </AspectOutter>
-    )
+    );
+  }
+
+  // 기존 정사각형을 square로 변경 후 일반 사각형을 rectangle로 변경
+  if (shape === "rectangle") {
+    return <ImageRectangle {...styles}></ImageRectangle>;
   }
 };
 
@@ -38,9 +45,17 @@ const AspectInner = styled.div`
   position: relative;
   padding-top: 75%;
   overflow: hidden;
-  background-image: url(${(props) => props.src});
+  background-image: url(${props => props.src});
   background-size: cover;
   /* background-position: center; */
+`;
+
+const ImageRectangle = styled.div`
+  width: ${props => props.width};
+  height: ${props => props.height};
+  background-image: url(${props => props.src});
+  background-size: cover;
+  margin: ${props => props.margin};
 `;
 
 const ImageCircle = styled.div`
@@ -49,7 +64,7 @@ const ImageCircle = styled.div`
   height: var(--size);
   border-radius: var(--size);
 
-  background-image: url(${(props) => props.src});
+  background-image: url(${props => props.src});
   background-size: cover;
   margin: 4px;
 `;

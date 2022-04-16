@@ -5,21 +5,19 @@ import { Route } from "react-router-dom";
 import { history } from "../redux/configureStore";
 import Home from "../pages/Home"
 import Main from "../pages/Main"
-import {Image, Text} from "../elements"
+import {Flex} from "../elements"
 
 function App() {
 
 
   return (
-    <div className="App">
+    <Flex className="App" height="100vh" fd="column" bg="#fafafa">
       <ConnectedRouter history={history}>
         {/*header*/}
-        <Image size={200} shape="circle"></Image>
-        <Text>아이유 너무 이뻐요</Text>
-        <Route path="/" exact component={Main}></Route>
-        <Route path="/home" exact component={Home}></Route>
+        <Route path="/main" exact component={Main}></Route>
+        <Route path="/" exact component={Home}></Route>
       </ConnectedRouter>
-    </div>
+    </Flex>
   );
 }
 
