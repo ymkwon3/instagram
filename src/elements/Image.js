@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Image = props => {
+const Image = (props) => {
   // new : width, height, margin
   const { shape, src, size, width, height, margin } = props;
 
@@ -46,17 +46,17 @@ const AspectInner = styled.div`
   position: relative;
   padding-top: ${(props) => props.paddingTop};
   overflow: hidden;
-  background-image: url(${props => props.src});
+  background-image: url(${(props) => props.src});
   background-size: cover;
   /* background-position: center; */
 `;
 
 const ImageRectangle = styled.div`
-  width: ${props => props.width};
-  height: ${props => props.height};
-  background-image: url(${props => props.src});
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  background-image: url(${(props) => props.src});
   background-size: cover;
-  margin: ${props => props.margin};
+  margin: ${(props) => props.margin};
 `;
 
 const ImageCircle = styled.div`
@@ -65,7 +65,7 @@ const ImageCircle = styled.div`
   height: var(--size);
   border-radius: var(--size);
 
-  background-image: url(${props => props.src});
+  background-image: url(${(props) => props.src});
   background-size: cover;
   // margin: 4px;
 `;

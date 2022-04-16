@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 // components
+import ModalPostWrtie from "./modal/ModalPostWrite";
+import Preview from "./modal/Preview";
 
 // react-icons
 import { AiFillHome } from "react-icons/ai";
@@ -64,6 +66,19 @@ SearchInput.defaultProps = {};
 export { SearchInput };
 
 const HeadarIcons = (props) => {
+  // 모달 창
+  // ===============================================================================
+  // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  //==============================================================================
+
   return (
     <>
       <Flex flex="1 0 127px">
@@ -78,11 +93,28 @@ const HeadarIcons = (props) => {
               style={{ fontSize: "30px", color: "black", marginLeft: "40px" }}
             />
           </a>
-          <a href="#">
-            <IoMdAddCircleOutline
-              style={{ fontSize: "30px", color: "black", margin: " 0 40px" }}
-            />
-          </a>
+
+          {/* 게시글 작성 모달 */}
+          <div>
+            <Button
+              bg="white"
+              width="auto"
+              margin="0px 34px"
+              _onClick={openModal}
+            >
+              <IoMdAddCircleOutline
+                style={{ fontSize: "30px", color: "black" }}
+              />
+            </Button>
+            <ModalPostWrtie
+              open={modalOpen}
+              close={closeModal}
+              header="게시글 만들기"
+            >
+              <Preview />
+            </ModalPostWrtie>
+          </div>
+
           <a href="#">
             <Image shape="circle" size={30} />
           </a>

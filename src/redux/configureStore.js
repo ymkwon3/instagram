@@ -4,15 +4,17 @@ import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
 
 import User from "./modules/user";
+import Image from "./modules/image";
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   user: User,
+  image: Image,
   router: connectRouter(history),
 });
 
-const middlewares = [thunk.withExtraArgument({history: history})];
+const middlewares = [thunk.withExtraArgument({ history: history })];
 
 // 지금이 어느 환경인 지 알려줘요. (개발환경, 프로덕션(배포)환경 ...)
 const env = process.env.NODE_ENV;
@@ -32,6 +34,6 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
-let store = initialStore => createStore(rootReducer, enhancer);
+let store = (initialStore) => createStore(rootReducer, enhancer);
 
 export default store();
