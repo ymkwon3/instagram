@@ -58,7 +58,7 @@ Flex.defaultProps = {
   padding: "",
   border: "none",
   borderRadius: "",
-  borderBottom: "none",
+  borderBottom: "",
   gap: "",
   position: "static",
   top: "",

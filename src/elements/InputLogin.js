@@ -8,12 +8,24 @@ const InputLogin = React.forwardRef((props, ref) => {
     width,
     height,
     padding,
+    margin,
     fontSize,
+    fontWeight,
     bg,
     color,
     _onBlur,
+    _onChange,
   } = props;
-  const styles = { width, height, padding, fontSize, bg, color };
+  const styles = {
+    width,
+    height,
+    padding,
+    margin,
+    fontSize,
+    fontWeight,
+    bg,
+    color,
+  };
 
   return (
     <InputContainer {...styles}>
@@ -23,6 +35,7 @@ const InputLogin = React.forwardRef((props, ref) => {
         placeholder=" "
         autoComplete="off"
         onBlur={_onBlur}
+        onChange={_onChange}
       />
       <label>{label}</label>
     </InputContainer>
@@ -30,12 +43,13 @@ const InputLogin = React.forwardRef((props, ref) => {
 });
 
 InputLogin.defaultProps = {
-  fontSize: "16px",
+  fontSize: "12px",
   bg: "#fafafa",
   width: "270px",
-  height: "40px",
-  padding: "10",
+  height: "36px",
+  padding: "11px",
   _onBlur: () => {},
+  _onChange: () => {},
 };
 
 const InputContainer = styled.div`
@@ -44,9 +58,11 @@ const InputContainer = styled.div`
   position: relative;
   width: ${props => props.width};
   height: ${props => props.height};
+  margin: ${props => props.margin};
 
   & > input {
     font-size: ${props => props.fontSize};
+    font-weight: ${props => props.fontWeight};
     width: 100%;
     height: 100%;
     background-color: ${props => props.bg};
@@ -58,7 +74,7 @@ const InputContainer = styled.div`
   }
 
   & > label {
-    font-size: 16px;
+    font-size: ${props => props.fontSize};
     position: absolute;
     left: ${props => props.padding};
     top: ${props => props.padding};
@@ -67,19 +83,18 @@ const InputContainer = styled.div`
     color: #8e8e8e;
   }
 
-  & > input:focus, & > input:not(:placeholder-shown) {
-    /* border: 2px solid #35a0b8;
-    outline: 2px solid #35a0b8; */
+  & > input:not(:placeholder-shown) {
+    font-size: ${props => parseInt(props.fontSize) + "px"};
+    padding-top: ${props => parseInt(props.padding) + 12 + "px"};
   }
 
-  & > input:focus + label,
   & > input:not(:placeholder-shown) + label {
-    transform: translateY(-${props => props.padding});
-      font-size: 12px;
+    transform: translateY(-${props => parseInt(props.padding) - 4 + "px"});
+    font-size: ${props => parseInt(props.fontSize) - 1 + "px"};
   }
 
   & > input::-ms-reveal {
-    filter: invert();
+    display: none;
   }
 `;
 
