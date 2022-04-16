@@ -84,7 +84,7 @@ Flex.defaultProps = {
   border: "none",
   borderRadius: "",
   borderTop: "", // new
-  borderBottom: "none",
+  borderBottom: "",
   gap: "",
   position: "static",
   top: "",
@@ -135,7 +135,7 @@ const FlexDiv = styled.div`
   flex: ${(props) => props.flex}; // new
   white-space: ${(props) => props.whiteSpace}; // new
   float: ${(props) => props.float}; // new
-  align-centent: ${(props) => props.alignContent}; // new
+  align-content: ${(props) => props.alignContent}; // new
   min-height: ${(props) => props.minHeight}; // news
   aspect-ratio: ${(props) => props.aspectRatio}; // news
   flex-basis: ${(props) => props.flexBasis}; // news

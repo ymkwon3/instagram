@@ -18,6 +18,7 @@ const Main = (props) => {
         margin="0px auto"
         padding="90px 0px 0px 0px"
         jc="flex-start"
+        ai="flex-start"
       >
         <Flex
           fd="column"
@@ -31,7 +32,7 @@ const Main = (props) => {
           <Post />
           <Post />
           <Post />
-        </Flex>{" "}
+        </Flex>
         <Recommendation />
       </Flex>
     </>
