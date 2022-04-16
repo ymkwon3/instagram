@@ -34,6 +34,7 @@ Image.defaultProps = {
   shape: "circle",
   src: "https://file.mk.co.kr/meet/neds/2021/12/image_readtop_2021_1116084_16386257784873056.jpg",
   size: 36,
+  paddingTop: "75%",
 };
 
 const AspectOutter = styled.div`
@@ -43,7 +44,7 @@ const AspectOutter = styled.div`
 
 const AspectInner = styled.div`
   position: relative;
-  padding-top: 75%;
+  padding-top: ${(props) => props.paddingTop};
   overflow: hidden;
   background-image: url(${props => props.src});
   background-size: cover;
@@ -59,14 +60,14 @@ const ImageRectangle = styled.div`
 `;
 
 const ImageCircle = styled.div`
-  --size: ${props => props.size}px;
+  --size: ${(props) => props.size}px;
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);
 
   background-image: url(${props => props.src});
   background-size: cover;
-  margin: 4px;
+  // margin: 4px;
 `;
 
 export default Image;

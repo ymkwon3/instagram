@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = props => {
+const Button = (props) => {
   const {
     margin,
     padding,
@@ -54,18 +54,18 @@ Button.defaultProps = {
 };
 
 const ButtonStyle = styled.button`
-  margin: ${props => props.margin};
-  padding: ${props => props.padding};
-  width: ${props => props.width};
-  height: ${props => props.height};
-  border: ${props => props.border};
-  border-radius: ${props => props.borderRadius};
+  margin: ${(props) => props.margin};
+  padding: ${(props) => props.padding};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border: ${(props) => props.border};
+  border-radius: ${(props) => props.borderRadius};
 
-  color: ${props => props.color};
-  background-color: ${props => props.bg};
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.bg};
 
-  font-weight: ${props => props.fontWeight};
-  font-size: ${props => props.fontSize};
+  font-weight: ${(props) => props.fontWeight};
+  font-size: ${(props) => props.fontSize};
 
   transition: 0.2s;
 
