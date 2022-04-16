@@ -2,7 +2,11 @@ import React from "react";
 import { AiFillFacebook } from "react-icons/ai";
 import { Image, Text, Flex, Button, InputLogin } from "../elements";
 
-const Login = props => {
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+const Login = (props) => {
+  const dispatch = useDispatch();
+
   const idRef = React.useRef(null);
   const pwdRef = React.useRef(null);
   const [btnState, setBtnState] = React.useState(false);
@@ -16,9 +20,15 @@ const Login = props => {
   };
 
   const clickLogin = () => {
-    console.log("로그인요청 해야함무라비")
-    
-  }
+    console.log("로그인요청 해야함무라비");
+
+    let userId = idRef.current.value;
+    let password = pwdRef.current.value;
+
+    console.log(userId, password);
+
+    dispatch(userActions.loginDB(userId, password));
+  };
 
   return (
     <>

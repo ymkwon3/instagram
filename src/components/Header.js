@@ -26,7 +26,7 @@ import {
 
 import { history } from "../redux/configureStore";
 
-const Header = props => {
+const Header = (props) => {
   const logoClick = () => {
     history.push("/");
   };
@@ -68,7 +68,7 @@ const Header = props => {
   );
 };
 
-const HeadarIcons = props => {
+const HeadarIcons = (props) => {
   // 모달 창
   // ===============================================================================
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
@@ -88,7 +88,12 @@ const HeadarIcons = props => {
         <Flex whiteSpace="nowrap" jc="flex-end" gap="22px">
           <RiHome4Line color="#000" size="26" />
           <RiMessage2Line color="#000" size="26" />
-          <RiAddBoxLine className="hoverEvent" onClick={openModal} color="#000" size="26" />
+          <RiAddBoxLine
+            className="hoverEvent"
+            onClick={openModal}
+            color="#000"
+            size="26"
+          />
           <RiCompass3Line color="#000" size="26" />
           <AiOutlineHeart color="#000" size="26" />
           <Image shape="circle" size={24} />
