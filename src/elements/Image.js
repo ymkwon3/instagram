@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Image = props => {
-  // new : width, height, margin
-  const { shape, src, size, width, height, margin } = props;
+  const { shape, src, size, width, height, margin, paddingTop } = props;
 
   const styles = {
     src,
@@ -11,6 +10,7 @@ const Image = props => {
     width,
     height,
     margin,
+    paddingTop,
   };
 
   if (shape === "circle") {

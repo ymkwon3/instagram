@@ -6,7 +6,7 @@ import styled from "styled-components";
 // elements
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
-const Recommendation = (props) => {
+const Recommendation = props => {
   return (
     <>
       <Flex

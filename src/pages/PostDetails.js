@@ -34,7 +34,7 @@ const PostDetails = (props) => {
           flexBasis="859px"
           overflow="hidden"
         >
-          <Image shape="rectangle" paddingTop="100%" />
+          <Image shape="square" paddingTop="100%" />
         </Flex>
         <Flex
           fd="column"
