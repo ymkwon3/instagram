@@ -188,10 +188,9 @@ const PostTextarea = styled.textarea`
   max-height: 80px;
   outline: 0;
   padding: 0;
-  height: auto
+  height: auto;
   resize: none;
   width: 100%;
   display: flex;
-  height: auto;
 `;
 export default Post;

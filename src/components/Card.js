@@ -7,14 +7,16 @@ import styled from "styled-components";
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 const Card = props => {
-  const { name, size, userId, src } = props;
+  const { name, size, userId, src, margin, padding } = props;
   const styles = {
     size,
     src,
+    margin,
+    padding,
   };
   return (
     <>
-      <Flex>
+      <Flex margin={margin} padding={padding}>
         <Flex width={size}>
           <Image shape="circle" {...styles} />
         </Flex>

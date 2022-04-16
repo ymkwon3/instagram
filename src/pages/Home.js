@@ -51,11 +51,7 @@ const Home = props => {
             ) : (
               <>
                 <Text color="#262626">계정이 있으신가요? </Text>
-                <Button
-                  color="#00a2f8"
-                  bg="transparent"
-                  _onClick={goLoginPage}
-                >
+                <Button color="#00a2f8" bg="transparent" _onClick={goLoginPage}>
                   로그인
                 </Button>
               </>
