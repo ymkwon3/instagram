@@ -29,6 +29,7 @@ function App() {
         <Header />
         {/* <Image size={200} shape="circle"></Image>
         <Text>아이유 너무 이뻐요</Text>z */}
+
         <Route path="/" exact component={Main}></Route>
         <Route path="/home" exact component={Home}></Route>
         <Route path="/detail" exact component={PostDetails}></Route>
