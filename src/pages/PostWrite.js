@@ -1,25 +1,26 @@
 import React from "react";
 
 // elements
-import { Flex, Image, Textarea, Text } from "../../elements";
+import { Flex, Image, Textarea, Text } from "../elements";
 
 // styles
 import styled from "styled-components";
 
 // components
-import Card from "../../components/Card";
+import Card from "../components/Card";
 
 // packages
 import { useSelector, useDispatch } from "react-redux";
-import { actionCreator as imageActions } from "../../redux/modules/image";
+import { actionCreator as imageActions } from "../redux/modules/image";
 
 // react-icons
 import { BsEmojiDizzy } from "react-icons/bs";
 
-const Preview = () => {
+const PostWrite = () => {
   const dispatch = useDispatch();
   const preview = useSelector((state) => state.image.preview);
   console.log(preview);
+
   // const is_uploading = useSelector((state) => state.image.uploading);
   const [file, setFile] = React.useState("");
   const fileInput = React.useRef();
@@ -121,7 +122,7 @@ const AttachmentInput = styled.input`
   border: 0;
 `;
 
-export default Preview;
+export default PostWrite;
 
 const ModalBodyRight = (props) => {
   return (

@@ -7,8 +7,11 @@ import styled from "styled-components";
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 // components
-import ModalPostWrtie from "./modal/ModalPostWrite";
-import Preview from "./modal/Preview";
+import ModalFrame from "./modal/ModalFrame";
+
+// pages
+import PostWrite from "../pages/PostWrite";
+import Messenger from "../pages/Messenger";
 
 // react-icons
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -87,7 +90,14 @@ const HeadarIcons = (props) => {
       <Flex flex="1 0 127px">
         <Flex whiteSpace="nowrap" jc="flex-end" gap="22px">
           <RiHome4Line color="#000" size="26" />
-          <RiMessage2Line color="#000" size="26" />
+          <RiMessage2Line
+            className="hoverEvent"
+            color="#000"
+            size="26"
+            onClick={() => {
+              history.push("/messenger");
+            }}
+          />
           <RiAddBoxLine
             className="hoverEvent"
             onClick={openModal}
@@ -98,13 +108,14 @@ const HeadarIcons = (props) => {
           <AiOutlineHeart color="#000" size="26" />
           <Image shape="circle" size={24} />
 
-          <ModalPostWrtie
+          <ModalFrame
             open={modalOpen}
             close={closeModal}
             header="게시글 만들기"
           >
-            <Preview />
-          </ModalPostWrtie>
+            {/* 모달 창 main 부분 */}
+            <PostWrite />
+          </ModalFrame>
         </Flex>
       </Flex>
     </>

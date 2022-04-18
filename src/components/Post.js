@@ -17,7 +17,9 @@ import { BiShareAlt } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BsEmojiWink } from "react-icons/bs";
 
-const Post = props => {
+const Post = (props) => {
+  const { postId, content, imageUrl, createdAt, userId } = props;
+
   const commentRef = React.useRef(null);
 
   const autoGrow = () => {
