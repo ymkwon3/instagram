@@ -29,19 +29,19 @@ const SignUp = (props) => {
 
   const clickSignUp = () => {
     console.log("회원가입 요청해야함무라비");
-
+    // dispatch(userActions.idCheckDB(idRef.current.value));
     let userId = idRef.current.value;
     let userName = nameRef.current.value;
     let password = pwdRef.current.value;
     let passwordCheck = pwdCheckRef.current.value;
 
+    
+    // if (password !== passwordCheck) {
+    //   window.alert("비번이 다르자너요!! 다시 기입 ㄱㄱ");
+    //   return;
+    // }
     let data = { userId, userName, password, passwordCheck };
-    console.log(data);
-    if (password !== passwordCheck) {
-      window.alert("비번이 다르자너요!! 다시 기입 ㄱㄱ");
-      return;
-    }
-    dispatch(userActions.singupDB(userId, userName, password, passwordCheck));
+    dispatch(userActions.singupDB(data));
   };
 
   return (
@@ -117,7 +117,7 @@ const SignUp = (props) => {
         _disabled={btnState ? false : true}
         _onClick={clickSignUp}
       >
-        로그인
+        가입
       </Button>
     </>
   );

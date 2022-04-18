@@ -35,6 +35,7 @@
   max-width: 1240px;
   min-width: 800px;
   border-top-right-radius: 5px 5px;
+  border-bottom-right-radius: 5px 5px;
   aspect-ratio: 4 / 3;
   margin: 0 auto;
   background-color: #000;

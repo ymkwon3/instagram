@@ -26,30 +26,28 @@ const initialState = {
 };
 
 // middlewaore actions
-const loginDB = (userId, password) => {
+const loginDB = (data) => {
   return async function (dispatch, getState, { history }) {
-    let data = { userId, password };
-    console.log(data);
 
-    let userInfo = postAPI("/api/login", data);
-    console.log(userInfo); // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
+    postAPI("/api/login", data).then(res => {
+      setToken(res.token);
+    });
 
     // dispatch(setUser(userInfo)); // 테스트 후 정리하기
   };
 };
 
-const singupDB = (userId, userName, password, passwordCheck) => {
+const singupDB = (data) => {
   return async function (dispatch, getState, { history }) {
-    let data = { userId, userName, password, passwordCheck };
     console.log(data);
 
-    console.log(postAPI("/api/signUp", data));
+    postAPI("/api/signUp", data)
   };
 };
 
 const loginCheckDB = () => {
   return async function (dispatch, getState, { history }) {
-    console.log(getAPI("/api/isLogin")); // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
+   // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
     let userInfo = getAPI("/api/islogin");
 
     // dispatch(setUser(userInfo));
@@ -64,11 +62,9 @@ const logOutDB = () => {
   };
 };
 
-const idCheckDB = () => {
+const idCheckDB = (userId) => {
   return async function (dispatch, getState, { history }) {
-    console.log("-- 아이디 체크 실행");
-    let userId = getState().user.userInfo.userId;
-    postAPI("/api/idCheck", userId);
+    postAPI("/api/idCheck", {userId});
     // 아직 사용 용도를 몰라 해당 리듀서를 만들진 않았습니다.
   };
 };
