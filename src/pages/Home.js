@@ -18,7 +18,7 @@ const Home = props => {
   return (
     <>
       <Flex width="1000px" height="100%" gap="32px">
-        <Image shape="rectangle" width="380px" height="581px"></Image>
+        <Image shape="rectangle" width="380px"></Image>
         <Flex fd="column" width="350px">
           <Flex
             fd="column"

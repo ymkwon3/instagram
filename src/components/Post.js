@@ -11,9 +11,9 @@ import Card from "../components/Card";
 
 // react-icons
 import { BsThreeDots } from "react-icons/bs";
-import { BsChat } from "react-icons/bs";
-import { IoIosHeartEmpty } from "react-icons/io";
-import { BiMessageDetail } from "react-icons/bi";
+import { HiOutlineChat } from "react-icons/hi";
+import { AiOutlineHeart } from "react-icons/ai";
+import { BiShareAlt } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BsEmojiWink } from "react-icons/bs";
 
@@ -27,8 +27,12 @@ const Post = props => {
     if (
       commentRef.current.rows < 5 &&
       (commentRef.current.scrollHeight - padding) /
-        (lineHeight * commentRef.current.rows) > 1) {
+        (lineHeight * commentRef.current.rows) >
+        1
+    ) {
       commentRef.current.rows += 1;
+    } else if (commentRef.current.value === "") {
+      commentRef.current.rows = 1;
     }
   };
 
@@ -53,94 +57,19 @@ const Post = props => {
         </Flex>
 
         {/* 게시글 body 부분 */}
-        <Flex>
-          <Image shape="square" />
-        </Flex>
+
+          <Image shape="rectangle" src="https://scontent-atl3-1.cdninstagram.com/v/t51.29350-15/278070637_1173735450111264_6880398074226860271_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=8ae9d6&_nc_ohc=kOfWh5OYa1EAX_jXs71&_nc_ht=scontent-atl3-1.cdninstagram.com&oh=00_AT-53J2hLOxyOjdOTfvuaEuNirOdcU4p_Xxv91nj7QNl-A&oe=6260AB31"/>
 
         {/* 게시글 bottom 부분 */}
         <Flex>
           {/* 첫번째 줄 */}
-          <Flex ai="center" ac="center" jc="space-between" padding="6px 16px">
-            <Flex jc="">
-              <Button bg="white" padding="0px">
-                <IoIosHeartEmpty
-                  style={{
-                    fontSize: "26px",
-                    margin: "8px 8px 8px 0px",
-                    color: "black",
-                  }}
-                />
-              </Button>
-              <Button bg="white" padding="0px">
-                <BsChat
-                  style={{ fontSize: "24px", margin: "8px", color: "black" }}
-                />
-              </Button>
-              <Button bg="white" padding="0px">
-                <BiMessageDetail
-                  style={{ fontSize: "24px", margin: "8px", color: "black" }}
-                />
-              </Button>
+          <Flex ai="center" jc="space-between" padding="16px 16px">
+            <Flex jc="start" gap="16px">
+              <AiOutlineHeart className="iconHoverEvent" color="#000" size="26" />
+              <HiOutlineChat className="iconHoverEvent" color="#000" size="26" />
+              <BiShareAlt className="iconHoverEvent" color="#000" size="26" />
             </Flex>
-            <Button bg="white" padding="0px">
-              <RiBookmarkLine style={{ fontSize: "24px", color: "black" }} />
-            </Button>
-          </Flex>
-        </Flex>
-
-        {/* 두번째 줄 : 댓글*/}
-        <Flex fd="column" margin="-4px 0px 0px 0px">
-          <Flex jc="space-between" padding="3px 16px">
-            <span>
-              <UserNameGoToMyPage href="#">
-                <UsernameSpan>유저이름</UsernameSpan>
-              </UserNameGoToMyPage>
-              <span
-                style={{
-                  fontSize: "14px",
-                }}
-              >
-                갓 아이유
-              </span>
-            </span>
-            <Button bg="transparent" width="auto">
-              <IoIosHeartEmpty style={{ color: "black" }} />
-            </Button>
-          </Flex>
-          <Flex jc="space-between" padding="3px 16px">
-            <span>
-              <UserNameGoToMyPage href="#">
-                <UsernameSpan>유저이름</UsernameSpan>
-              </UserNameGoToMyPage>
-              <span
-                style={{
-                  fontSize: "14px",
-                }}
-              >
-                갓 아이유
-              </span>
-            </span>
-            <Button bg="transparent" width="auto">
-              <IoIosHeartEmpty style={{ color: "black" }} />
-            </Button>
-          </Flex>
-
-          <Flex jc="space-between" padding="3px 16px">
-            <span>
-              <UserNameGoToMyPage href="#">
-                <UsernameSpan>유저이름</UsernameSpan>
-              </UserNameGoToMyPage>
-              <span
-                style={{
-                  fontSize: "14px",
-                }}
-              >
-                갓 아이유
-              </span>
-            </span>
-            <Button bg="transparent" width="auto">
-              <IoIosHeartEmpty style={{ color: "black" }} />
-            </Button>
+            <RiBookmarkLine className="iconHoverEvent" color="#000" size="26" />
           </Flex>
         </Flex>
 
