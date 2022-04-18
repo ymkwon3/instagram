@@ -6,13 +6,28 @@ import styled from "styled-components";
 // elements
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
-const Card = props => {
-  const { name, size, userId, src, margin, padding } = props;
+const Card = (props) => {
+  const {
+    name,
+    size,
+    userId,
+    src,
+    margin,
+    padding,
+    topFontSize,
+    topFontWeight,
+    bottomFontSize,
+    bottoTextmMargin,
+  } = props;
   const styles = {
     size,
     src,
     margin,
     padding,
+    topFontSize,
+    topFontWeight,
+    bottomFontSize,
+    bottoTextmMargin,
   };
   return (
     <>
@@ -22,10 +37,18 @@ const Card = props => {
         </Flex>
 
         <Flex fd="column" ai="flex-start" gap="3px" margin="0 0 0 14px">
-          <Text fontSize="14px" color="#262626" fontWeight="600">
+          <Text
+            fontSize={topFontSize ? topFontSize : "14px"}
+            color="#262626"
+            fontWeight={topFontWeight ? topFontWeight : "600"}
+          >
             {userId}
           </Text>
-          <Text fontSize="12px">{name}</Text>
+          <Flex jc="" margin={bottoTextmMargin}>
+            <Text fontSize={bottomFontSize ? bottomFontSize : "14px"}>
+              {name}
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
     </>

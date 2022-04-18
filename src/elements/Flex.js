@@ -38,6 +38,10 @@ const Flex = (props) => {
     aspectRatio,
     flexBasis,
     flexWrap, // new
+    textAlign, // new
+    textOverflow, // new4
+    flexShrink, // new
+    overscrollBehavior,
   } = props;
 
   const styles = {
@@ -72,6 +76,10 @@ const Flex = (props) => {
     aspectRatio,
     flexBasis,
     flexWrap, // new
+    textAlign, // new
+    textOverflow, // new
+    flexShrink, // new
+    overscrollBehavior,
   };
   return (
     <FlexDiv onClick={_onClick} {...styles} className={className}>
@@ -112,6 +120,10 @@ Flex.defaultProps = {
   aspectRatio: "",
   flexBasis: "",
   flexWrap: "", // new
+  textAlign: "", // new
+  textOverflow: "", // new
+  flexShrink: "", // new
+  overscrollBehavior: "auto",
 };
 
 const FlexDiv = styled.div`
@@ -147,6 +159,10 @@ const FlexDiv = styled.div`
   aspect-ratio: ${(props) => props.aspectRatio};
   flex-basis: ${(props) => props.flexBasis};
   flex-wrap: ${(props) => props.flexWrap};
+  text-align: ${(props) => props.textAlign};
+  text-overflow: ${(props) => props.textOverflow};
+  flex-shrink ${(props) => props.flexShrink};
+  overscroll-behavior ${(props) => props.overscrollBehavior};
 `;
 
 export default Flex;
