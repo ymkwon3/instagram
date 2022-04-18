@@ -111,7 +111,7 @@ const HeadarIcons = (props) => {
           <ModalFrame
             open={modalOpen}
             close={closeModal}
-            header="게시글 만들기"
+            header="새 게시물 만들기"
           >
             {/* 모달 창 main 부분 */}
             <PostWrite />

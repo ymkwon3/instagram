@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Textarea = React.forwardRef((props, ref) => {
-  const { rows, placeholder, padding, bg, maxlength } = props;
+  const { rows, placeholder, padding, bg, maxLength, _onChange } = props;
   return (
     <TextareaStyled
       rows={rows}
@@ -11,8 +11,9 @@ const Textarea = React.forwardRef((props, ref) => {
       placeholder={placeholder}
       bg={bg}
       ref={ref}
-      maxlength={maxlength} // new2
+      maxLength={maxLength} // new2
       padding={padding}
+      onChange={(e) => _onChange(e.target.value)}
     ></TextareaStyled>
   );
 });
@@ -22,7 +23,7 @@ Textarea.defaultProps = {
   placeholder: "",
   padding: "0",
   bg: "",
-  maxlength: "", // new2
+  maxLength: 0, // new2
 };
 
 const TextareaStyled = styled.textarea`
@@ -30,7 +31,8 @@ const TextareaStyled = styled.textarea`
   resize: none;
   outline: none;
   border: none;
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 24px;
   padding: ${(props) => props.padding};
   background-color: ${(props) => props.bg};
   padding: ${(props) => props.padding};

@@ -34,7 +34,7 @@ const Card = props => {
 
 Card.defaultProps = {
   size: 32,
-  userId: "insta_luv",
+  userId: "luv_IU",
   name: "",
   src: "https://file.mk.co.kr/meet/neds/2021/12/image_readtop_2021_1116084_16386257784873056.jpg",
 };

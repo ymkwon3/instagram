@@ -13,11 +13,12 @@ import Card from "../components/Card";
 import { BsThreeDots } from "react-icons/bs";
 import { HiOutlineChat } from "react-icons/hi";
 import { AiOutlineHeart } from "react-icons/ai";
+import {FiSmile} from "react-icons/fi";
 import { BiShareAlt } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BsEmojiWink } from "react-icons/bs";
 
-const Post = (props) => {
+const Post = props => {
   const { postId, content, imageUrl, createdAt, userId } = props;
 
   const commentRef = React.useRef(null);
@@ -60,15 +61,26 @@ const Post = (props) => {
 
         {/* 게시글 body 부분 */}
 
-          <Image shape="rectangle" src="https://scontent-atl3-1.cdninstagram.com/v/t51.29350-15/278070637_1173735450111264_6880398074226860271_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=8ae9d6&_nc_ohc=kOfWh5OYa1EAX_jXs71&_nc_ht=scontent-atl3-1.cdninstagram.com&oh=00_AT-53J2hLOxyOjdOTfvuaEuNirOdcU4p_Xxv91nj7QNl-A&oe=6260AB31"/>
+        <Image
+          shape="rectangle"
+          src={imageUrl}
+        />
 
         {/* 게시글 bottom 부분 */}
         <Flex>
           {/* 첫번째 줄 */}
           <Flex ai="center" jc="space-between" padding="16px 16px">
             <Flex jc="start" gap="16px">
-              <AiOutlineHeart className="iconHoverEvent" color="#000" size="26" />
-              <HiOutlineChat className="iconHoverEvent" color="#000" size="26" />
+              <AiOutlineHeart
+                className="iconHoverEvent"
+                color="#000"
+                size="26"
+              />
+              <HiOutlineChat
+                className="iconHoverEvent"
+                color="#000"
+                size="26"
+              />
               <BiShareAlt className="iconHoverEvent" color="#000" size="26" />
             </Flex>
             <RiBookmarkLine className="iconHoverEvent" color="#000" size="26" />
@@ -86,9 +98,8 @@ const Post = (props) => {
           padding="6px 16px"
           borderTop="1px solid #857d7d24"
         >
-          <Button margin="8px 16px 8px 0px" bg="transparent">
-            <BsEmojiWink style={{ fontSize: "24px", color: "black" }} />
-          </Button>
+            <FiSmile color="#000" size={26} style={{margin: "8px 16px 8px 0px"}} />
+         
           <PostTextarea
             placeholder="댓글 달기..."
             rows={1}
@@ -105,20 +116,6 @@ const Post = (props) => {
 };
 
 Post.defaultProps = {};
-
-const UserNameGoToMyPage = styled.a`
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const UsernameSpan = styled.span`
-  font-weight: 600;
-  color: black;
-  margin: 0px 10px 0px 0px;
-  font-size: 14px;
-`;
 
 const PostTextarea = styled.textarea`
   color: #262626;
