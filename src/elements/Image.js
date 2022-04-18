@@ -57,8 +57,6 @@ const AspectInner = styled.div`
 const ImageRectangle = styled.img`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  background-image: url(${(props) => props.src});
-  background-size: cover;
   margin: ${(props) => props.margin};
 `;
 

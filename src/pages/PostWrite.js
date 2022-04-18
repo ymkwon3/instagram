@@ -14,70 +14,36 @@ import { useSelector, useDispatch } from "react-redux";
 import { actionCreator as imageActions } from "../redux/modules/image";
 
 // react-icons
-import { BsEmojiDizzy } from "react-icons/bs";
+import { BsEmojiDizzy, BsChevronDown } from "react-icons/bs";
+import {FiSmile} from "react-icons/fi";
+import { GoLocation } from "react-icons/go"
 
 const PostWrite = () => {
   const dispatch = useDispatch();
-  const preview = useSelector((state) => state.image.preview);
-  console.log(preview);
+  const preview = useSelector(state => state.image.preview);
 
   // const is_uploading = useSelector((state) => state.image.uploading);
-  const [file, setFile] = React.useState("");
-  const fileInput = React.useRef();
+  const [file, setFile] = React.useState(null);
+  const textInput = React.useRef("");
+  const [text, setText] = React.useState("");
 
-  const selectFile = (e) => {
-    if (!fileInput.current || fileInput.current.files.length === 0) {
-      window.alert("파일을 선택해주세요!");
-      return;
-    }
 
-    setFile(fileInput.current.files[0].name);
-
-    // 업로드된 파일을 읽어오는 객체 생성
-    const reader = new FileReader();
-    const selectdFile = fileInput.current.files[0];
-
-    console.log(selectdFile);
-
-    // dispatch(imageActions.imageStoreTemp(selectdFile));
-    // 업로드된 파일 내용을 읽어오기
-    reader.readAsDataURL(selectdFile);
-
-    console.log(reader);
-
-    // 파일 읽기가 끝난 후 발생하는 이벤드 핸들러
-    reader.onloadend = () => {
-      console.log(reader.result);
-      //   setPreview(reader.result);
-      //   console.log(preview);
-      dispatch(imageActions.setPreview(reader.result));
-    };
+  const handleFileSelect = e => {
+    setFile(e.target.files[0]);
+    dispatch(imageActions.setPreview(URL.createObjectURL(e.target.files[0])));
   };
 
   return (
-    <React.Fragment>
-      <Flex jc="" ai="flex-start">
-        <Flex width="688px" height="600px" fd="column" jc="space-between">
-          <Flex>
-            <AttachmentDescription
-              value={file}
-              placeholder="사진을 선택해주세용!"
-              onChange={() => {}}
-            />
-            <AttachmentLabel htmlFor="file">파일찾기</AttachmentLabel>
-            <AttachmentInput
-              onChange={selectFile}
-              type="file"
-              id="file"
-              ref={fileInput}
-              // disabled={is_uploading}
-            />
-          </Flex>
-
+    <Flex ai="start" height="100%">
+      <Flex flex="2" fd="column">
+        <InputFile
+          type="file"
+          placeholder="사진을 선택해주세용!"
+          onChange={handleFileSelect}
+        />
+        <Flex>
           <Image
             shape="rectangle"
-            width="100%"
-            height="100%"
             src={
               preview
                 ? preview
@@ -85,63 +51,58 @@ const PostWrite = () => {
             }
           />
         </Flex>
-
-        <ModalBodyRight />
       </Flex>
-    </React.Fragment>
+      <Flex width="1px" height="777px" bg="#dbdbdb" />
+
+      {/* 오른쪽 게시물 내용 작성 부분 */}
+      <Flex flex="0.9" fd="column">
+        <Flex padding="0 16px" height="60px">
+          <Card />
+        </Flex>
+
+        <Textarea
+          padding="0 16px"
+          rows={7}
+          placeholder="문구 입력..."
+          maxLength={2200}
+          value={text}
+          _onChange={setText}
+        />
+        <Flex jc="space-between" height="44px" padding="4px 8px" borderBottom="1px solid #dbdbdb">
+          <FiSmile size={20} color="#8e8e8e" style={{margin: "0 0 0 8px"}}/>
+
+          <Text margin="0px 8px 0px 0px" fontSize="12px" color="#c7c7c7">{text.length}/2,200</Text>
+  
+        </Flex>
+        <Flex jc="space-between" height="44px" padding="4px 8px" borderBottom="1px solid #dbdbdb">
+          <Text margin="0 9px" fontSize="16px">위치 추가</Text>
+          <GoLocation style={{margin: "0 8px 0 0"}}></GoLocation>
+        </Flex>
+        <Flex jc="space-between" height="44px" padding="4px 8px" borderBottom="1px solid #dbdbdb">
+          <Text margin="0 9px" fontSize="16px" color="#262626">접근성</Text>
+          <BsChevronDown style={{margin: "0 8px 0 0"}}></BsChevronDown>
+        </Flex>
+        <Flex jc="space-between" height="44px" padding="4px 8px" borderBottom="1px solid #dbdbdb">
+          <Text margin="0 9px" fontSize="16px" color="#262626">고급 설정</Text>
+          <BsChevronDown style={{margin: "0 8px 0 0"}}></BsChevronDown>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 
-const AttachmentDescription = styled.input`
-  display: inline-block;
-  height: 40px;
-  padding: 0 10px;
-  vertical-align: middle;
-  border: 1px solid #dddddd;
-  width: 78%;
-  color: #999999;
-`;
-
-const AttachmentLabel = styled.label`
-  display: inline-block;
-  padding: 10px 20px;
-  color: #fff;
-  vertical-align: middle;
-  background-color: #999999;
+const InputFile = styled.input`
+  width: 100%;
   cursor: pointer;
-  height: 40px;
-  margin-left: 10px;
-`;
-
-const AttachmentInput = styled.input`
-  position: absolute;
-  width: 0;
-  height: 0;
-  padding: 0;
-  overflow: hidden;
-  border: 0;
+  padding: 10px;
+  &[type="file"]::file-selector-button {
+    background-color: transparent;
+    content: "사진 업로드";
+    color: #0095f6;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
 `;
 
 export default PostWrite;
-
-const ModalBodyRight = (props) => {
-  return (
-    <>
-      <Flex width="340px" ai="" fd="column">
-        <Card />
-        <Textarea
-          padding="6px 16px"
-          rows={7}
-          placeholder="문구 입력..."
-          maxlength={2200}
-        />
-        <Flex jc="space-between" padding="4px 8px">
-          <BsEmojiDizzy style={{ fontSize: "20px", margin: "8px" }} />
-          <div>
-            <Text margin="0px 8px 0px 0px">0/2,200</Text>
-          </div>
-        </Flex>
-      </Flex>
-    </>
-  );
-};

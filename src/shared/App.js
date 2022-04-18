@@ -33,7 +33,7 @@ function App() {
 
         <Route path="/" exact component={Main}></Route>
         <Route path="/home" exact component={Home}></Route>
-        <Route path="/detail" exact component={PostDetails}></Route>
+        <Route path="/detail/:uid" exact component={PostDetails}></Route>
         <Route path="/messenger" exact component={Messenger}></Route>
       </ConnectedRouter>
     </Flex>
