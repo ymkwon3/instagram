@@ -8,11 +8,20 @@ const Text = (props) => {
     fontWeight,
     color,
     margin,
+    width,
     textAlign,
     children,
     lineHeight,
   } = props;
-  const styled = { fontSize, fontWeight, color, margin, textAlign, lineHeight };
+  const styled = {
+    fontSize,
+    fontWeight,
+    color,
+    margin,
+    textAlign,
+    lineHeight,
+    width,
+  };
   return <TextStyled {...styled}>{children}</TextStyled>;
 };
 
@@ -22,6 +31,7 @@ Text.defaultProps = {
   color: "#8e8e8e",
   textAlign: "start",
   lineHeight: "normal",
+  width: "",
 };
 
 const TextStyled = styled.div`
@@ -31,6 +41,7 @@ const TextStyled = styled.div`
   margin: ${(props) => props.margin};
   text-align: ${(props) => props.textAlign};
   line-height: ${(props) => props.lineHeight};
+  width: ${(props) => props.width};
 `;
 
 export default Text;

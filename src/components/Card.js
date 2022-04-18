@@ -18,6 +18,8 @@ const Card = (props) => {
     topFontWeight,
     bottomFontSize,
     bottoTextmMargin,
+    hoverEvent,
+    _onClick,
   } = props;
   const styles = {
     size,
@@ -28,10 +30,17 @@ const Card = (props) => {
     topFontWeight,
     bottomFontSize,
     bottoTextmMargin,
+    hoverEvent,
+    _onClick,
   };
   return (
     <>
-      <Flex margin={margin} padding={padding}>
+      <Flex
+        _onClick={_onClick}
+        cursor={hoverEvent}
+        margin={margin}
+        padding={padding}
+      >
         <Flex width={size}>
           <Image shape="circle" {...styles} />
         </Flex>
@@ -60,6 +69,10 @@ Card.defaultProps = {
   userId: "luv_IU",
   name: "",
   src: "https://file.mk.co.kr/meet/neds/2021/12/image_readtop_2021_1116084_16386257784873056.jpg",
+  topFontSize: "",
+  topFontWeight: "",
+  bottomFontSize: "",
+  bottoTextmMargin: "",
 };
 
 export default Card;

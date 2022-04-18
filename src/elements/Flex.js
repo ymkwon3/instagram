@@ -42,6 +42,10 @@ const Flex = (props) => {
     textOverflow, // new4
     flexShrink, // new
     overscrollBehavior,
+    overflowX,
+    overflowY,
+    borderLeft,
+    cursor,
   } = props;
 
   const styles = {
@@ -80,6 +84,10 @@ const Flex = (props) => {
     textOverflow, // new
     flexShrink, // new
     overscrollBehavior,
+    overflowX,
+    overflowY,
+    borderLeft,
+    cursor,
   };
   return (
     <FlexDiv onClick={_onClick} {...styles} className={className}>
@@ -124,6 +132,10 @@ Flex.defaultProps = {
   textOverflow: "", // new
   flexShrink: "", // new
   overscrollBehavior: "auto",
+  overflowX: "",
+  overflowY: "",
+  borderLeft: "",
+  cursor: "",
 };
 
 const FlexDiv = styled.div`
@@ -161,8 +173,12 @@ const FlexDiv = styled.div`
   flex-wrap: ${(props) => props.flexWrap};
   text-align: ${(props) => props.textAlign};
   text-overflow: ${(props) => props.textOverflow};
-  flex-shrink ${(props) => props.flexShrink};
-  overscroll-behavior ${(props) => props.overscrollBehavior};
+  flex-shrink: ${(props) => props.flexShrink};
+  overscroll-behavior: ${(props) => props.overscrollBehavior};
+  overflow-x: ${(props) => props.overflowX};
+  overflow-y: ${(props) => props.overflowY};
+  border-left: ${(props) => props.borderLeft};
+  cursor: ${(props) => props.cursor};
 `;
 
 export default Flex;
