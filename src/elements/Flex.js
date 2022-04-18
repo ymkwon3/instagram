@@ -161,8 +161,8 @@ const FlexDiv = styled.div`
   flex-wrap: ${(props) => props.flexWrap};
   text-align: ${(props) => props.textAlign};
   text-overflow: ${(props) => props.textOverflow};
-  flex-shrink ${(props) => props.flexShrink};
-  overscroll-behavior ${(props) => props.overscrollBehavior};
+  flex-shrink: ${(props) => props.flexShrink};
+  overscroll-behavior: ${(props) => props.overscrollBehavior};
 `;
 
 export default Flex;

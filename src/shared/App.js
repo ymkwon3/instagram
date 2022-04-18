@@ -8,6 +8,7 @@ import Main from "../pages/Main";
 import Header from "../components/Header";
 import PostDetails from "../pages/PostDetails";
 import Messenger from "../pages/Messenger";
+import ModalFrame from "../components/modal/ModalFrame";
 import { Image, Text, Flex } from "../elements";
 
 // styles
@@ -33,7 +34,6 @@ function App() {
 
         <Route path="/" exact component={Main}></Route>
         <Route path="/home" exact component={Home}></Route>
-        <Route path="/detail/:uid" exact component={PostDetails}></Route>
         <Route path="/messenger" exact component={Messenger}></Route>
       </ConnectedRouter>
     </Flex>

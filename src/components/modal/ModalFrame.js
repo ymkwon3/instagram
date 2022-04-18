@@ -6,9 +6,9 @@ import { MdClose } from "react-icons/md";
 // elements
 import { Flex, Text, Button } from "../../elements";
 
-const ModalPostWrtie = props => {
+const ModalFrame = props => {
   // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-  const { open, close, header } = props;
+  const { open, close } = props;
 
   return (
     // 모달이 열릴때 openModal 클래스가 생성된다.
@@ -21,24 +21,12 @@ const ModalPostWrtie = props => {
         onClick={close}
       />
       {open ? (
-        <section>
-          <Flex height="42px" borderBottom="1px solid #dbdbdb">
-            <Text fontWeight="600" fontSize="16px" color="#262626">
-              {header}
-            </Text>
-            <Button
-              color="#0095f6"
-              _onClick={() => console.log("작성하기만들어야함무라비")}
-            >
-              공유하기
-            </Button>
-          </Flex>
-
-          <Flex width="100%">{props.children}</Flex>
-        </section>
+        <>
+          {props.children}
+        </>
       ) : null}
     </div>
   );
 };
 
-export default ModalPostWrtie;
+export default ModalFrame;

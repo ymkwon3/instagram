@@ -23,7 +23,7 @@ Textarea.defaultProps = {
   placeholder: "",
   padding: "0",
   bg: "",
-  maxLength: 0, // new2
+  maxLength: 1000, // new2
 };
 
 const TextareaStyled = styled.textarea`

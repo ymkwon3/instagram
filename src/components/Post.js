@@ -8,18 +8,28 @@ import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 // components
 import Card from "../components/Card";
-
+import ModalFrame from "./modal/ModalFrame";
+import PostDetails from "../pages/PostDetails";
 // react-icons
 import { BsThreeDots } from "react-icons/bs";
 import { HiOutlineChat } from "react-icons/hi";
 import { AiOutlineHeart } from "react-icons/ai";
-import {FiSmile} from "react-icons/fi";
+import { FiSmile } from "react-icons/fi";
 import { BiShareAlt } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BsEmojiWink } from "react-icons/bs";
+import { history } from "../redux/configureStore";
 
 const Post = props => {
   const { postId, content, imageUrl, createdAt, userId } = props;
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   const commentRef = React.useRef(null);
 
@@ -41,6 +51,10 @@ const Post = props => {
 
   return (
     <>
+      <ModalFrame open={modalOpen} close={closeModal}>
+        {/* 모달 창 main 부분 */}
+        <PostDetails imageUrl={imageUrl} />
+      </ModalFrame>
       <Flex
         fd="column"
         jc="stretch"
@@ -54,17 +68,17 @@ const Post = props => {
           <Flex padding="14px 16px">
             <Card />
           </Flex>
-          <Button bg="transparent" margin="0px 12px 0px 0px">
-            <BsThreeDots size="20" color="#262626" />
-          </Button>
+
+          <BsThreeDots
+            style={{ margin: "0px 12px 0px 0px" }}
+            size="20"
+            color="#262626"
+          />
         </Flex>
 
         {/* 게시글 body 부분 */}
 
-        <Image
-          shape="rectangle"
-          src={imageUrl}
-        />
+        <Image shape="rectangle" src={imageUrl} />
 
         {/* 게시글 bottom 부분 */}
         <Flex>
@@ -80,6 +94,7 @@ const Post = props => {
                 className="iconHoverEvent"
                 color="#000"
                 size="26"
+                onClick={openModal}
               />
               <BiShareAlt className="iconHoverEvent" color="#000" size="26" />
             </Flex>
@@ -98,8 +113,12 @@ const Post = props => {
           padding="6px 16px"
           borderTop="1px solid #857d7d24"
         >
-            <FiSmile color="#000" size={26} style={{margin: "8px 16px 8px 0px"}} />
-         
+          <FiSmile
+            color="#000"
+            size={26}
+            style={{ margin: "8px 16px 8px 0px" }}
+          />
+
           <PostTextarea
             placeholder="댓글 달기..."
             rows={1}
