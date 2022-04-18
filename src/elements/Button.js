@@ -16,6 +16,7 @@ const Button = (props) => {
     _disabled,
     _onClick,
     children,
+    className, //new
   } = props;
 
   const styles = {
@@ -32,7 +33,7 @@ const Button = (props) => {
   };
 
   return (
-    <ButtonStyle {...styles} onClick={() => _onClick()} disabled={_disabled}>
+    <ButtonStyle className={className} {...styles} onClick={() => _onClick()} disabled={_disabled}>
       {children}
     </ButtonStyle>
   );

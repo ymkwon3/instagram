@@ -11,8 +11,9 @@ const Text = (props) => {
     textAlign,
     children,
     lineHeight,
+    overflow,
   } = props;
-  const styled = { fontSize, fontWeight, color, margin, textAlign, lineHeight };
+  const styled = { fontSize, fontWeight, color, margin, textAlign, lineHeight, overflow };
   return <TextStyled {...styled}>{children}</TextStyled>;
 };
 
@@ -22,6 +23,7 @@ Text.defaultProps = {
   color: "#8e8e8e",
   textAlign: "start",
   lineHeight: "normal",
+  overflow: "auto",
 };
 
 const TextStyled = styled.div`
@@ -31,6 +33,7 @@ const TextStyled = styled.div`
   margin: ${(props) => props.margin};
   text-align: ${(props) => props.textAlign};
   line-height: ${(props) => props.lineHeight};
+  overflow: ${props => props.overflow};
 `;
 
 export default Text;

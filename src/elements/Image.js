@@ -58,6 +58,7 @@ const ImageRectangle = styled.img`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};
+  object-fit: cover;
 `;
 
 const ImageCircle = styled.div`
@@ -65,7 +66,7 @@ const ImageCircle = styled.div`
   width: var(--size);
   height: var(--size);
   border-radius: var(--size);
-
+  border: 1px solid #eee;
   background-image: url(${(props) => props.src});
   background-size: cover;
   // margin: 4px;

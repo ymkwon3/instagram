@@ -18,6 +18,7 @@ const Card = (props) => {
     topFontWeight,
     bottomFontSize,
     bottoTextmMargin,
+    content,
   } = props;
   const styles = {
     size,
@@ -31,12 +32,12 @@ const Card = (props) => {
   };
   return (
     <>
-      <Flex margin={margin} padding={padding}>
+      <Flex margin={margin} padding={padding} jc="start">
         <Flex width={size}>
           <Image shape="circle" {...styles} />
         </Flex>
 
-        <Flex fd="column" ai="flex-start" gap="3px" margin="0 0 0 14px">
+        <Flex width="fit-content" fd="column" ai="flex-start" gap="3px" margin="0 10px 0 14px">
           <Text
             fontSize={topFontSize ? topFontSize : "14px"}
             color="#262626"
@@ -50,6 +51,7 @@ const Card = (props) => {
             </Text>
           </Flex>
         </Flex>
+        <Text>{content}</Text>
       </Flex>
     </>
   );
