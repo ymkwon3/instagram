@@ -7,8 +7,8 @@ import styled from "styled-components";
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 // components
-import ModalPostWrtie from "./modal/ModalPostWrite";
-import Preview from "./modal/Preview";
+import ModalFrame from "./modal/ModalFrame";
+import PostWrite from "../pages/PostWrite";
 
 // react-icons
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -98,13 +98,14 @@ const HeadarIcons = (props) => {
           <AiOutlineHeart color="#000" size="26" />
           <Image shape="circle" size={24} />
 
-          <ModalPostWrtie
+          <ModalFrame
             open={modalOpen}
             close={closeModal}
             header="게시글 만들기"
           >
-            <Preview />
-          </ModalPostWrtie>
+            {/* 모달 창 main 부분 */}
+            <PostWrite />
+          </ModalFrame>
         </Flex>
       </Flex>
     </>

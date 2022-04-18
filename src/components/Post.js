@@ -17,7 +17,9 @@ import { BiMessageDetail } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BsEmojiWink } from "react-icons/bs";
 
-const Post = props => {
+const Post = (props) => {
+  const { postId, content, imageUrl, createdAt, userId } = props;
+
   const commentRef = React.useRef(null);
 
   const autoGrow = () => {
@@ -27,7 +29,9 @@ const Post = props => {
     if (
       commentRef.current.rows < 5 &&
       (commentRef.current.scrollHeight - padding) /
-        (lineHeight * commentRef.current.rows) > 1) {
+        (lineHeight * commentRef.current.rows) >
+        1
+    ) {
       commentRef.current.rows += 1;
     }
   };
@@ -53,7 +57,7 @@ const Post = props => {
         </Flex>
 
         {/* 게시글 body 부분 */}
-        <Flex>
+        <Flex fd="column">
           <Image shape="square" />
         </Flex>
 

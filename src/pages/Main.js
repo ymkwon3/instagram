@@ -10,7 +10,19 @@ import { Button, Flex, Image, Text, Textarea } from "../elements";
 import Recommendation from "../components/Recommendation";
 import Post from "../components/Post";
 
+// packages
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
+
 const Main = (props) => {
+  const dispatch = useDispatch();
+  const postList = useSelector((state) => state.post?.postList);
+  console.log(postList);
+
+  React.useEffect(() => {
+    dispatch(postActions.getPostListDB());
+  }, []);
+
   return (
     <>
       <Flex
@@ -27,11 +39,9 @@ const Main = (props) => {
           maxWidth="614px"
         >
           <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          {postList?.map((post, idx) => (
+            <Post key={post.postId} {...post} />
+          ))}
         </Flex>
         <Recommendation />
       </Flex>
