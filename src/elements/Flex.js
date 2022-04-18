@@ -34,6 +34,7 @@ const Flex = (props) => {
     float, // new
     alignContent, // new
     minHeight, // new
+    maxHeight, // new
     aspectRatio, // new
     flexBasis, // new
   } = props;
@@ -66,6 +67,7 @@ const Flex = (props) => {
     float, // new
     alignContent, // new
     minHeight, // new
+    maxHeight, // new
     aspectRatio, //new
     flexBasis, // new
   };
@@ -104,6 +106,7 @@ Flex.defaultProps = {
   float: "", // new
   alignContent: "", // new
   minHeight: "", // new
+  maxHeight: "", // new
   aspectRatio: "", // new
   flexBasis: "", // new
 };
@@ -137,6 +140,7 @@ const FlexDiv = styled.div`
   float: ${(props) => props.float}; // new
   align-content: ${(props) => props.alignContent}; // new
   min-height: ${(props) => props.minHeight}; // news
+  max-height: ${props => props.maxHeight};
   aspect-ratio: ${(props) => props.aspectRatio}; // news
   flex-basis: ${(props) => props.flexBasis}; // news
 `;

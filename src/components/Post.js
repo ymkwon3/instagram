@@ -17,30 +17,44 @@ import { BiMessageDetail } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
 import { BsEmojiWink } from "react-icons/bs";
 
-const Post = (props) => {
+const Post = props => {
+  const commentRef = React.useRef(null);
+
+  const autoGrow = () => {
+    const padding = 4; // 패딩값
+    const lineHeight = 18; // 라인높이
+
+    if (
+      commentRef.current.rows < 5 &&
+      (commentRef.current.scrollHeight - padding) /
+        (lineHeight * commentRef.current.rows) > 1) {
+      commentRef.current.rows += 1;
+    }
+  };
+
   return (
     <>
       <Flex
         fd="column"
         jc="stretch"
         border="1px solid #dbdbdb"
-        borderBottom="1px solid #dbdbdb"
         borderRadius="3px"
+        bg="#fff"
         margin="0px 0px 24px 0px"
       >
         {/* 게시글 head 부분 */}
-        <Flex jc="space-between">
-          <div style={{ padding: "14px 0px 14px 16px" }}>
-            <Card name="" />
-          </div>
-          <Button bg="transparent" margin="0px 8px 0px 0px">
-            <BsThreeDots style={{ fontSize: "20px", color: "black" }} />
+        <Flex jc="space-between" borderBottom="">
+          <Flex padding="14px 16px">
+            <Card />
+          </Flex>
+          <Button bg="transparent" margin="0px 12px 0px 0px">
+            <BsThreeDots size="20" color="#262626" />
           </Button>
         </Flex>
 
         {/* 게시글 body 부분 */}
         <Flex>
-          <Image shape="rectangle" />
+          <Image shape="square" />
         </Flex>
 
         {/* 게시글 bottom 부분 */}
@@ -141,24 +155,18 @@ const Post = (props) => {
           padding="6px 16px"
           borderTop="1px solid #857d7d24"
         >
-          <Flex jc="" width="auto">
-            <Button margin="8px 16px 8px 0px" bg="transparent">
-              <BsEmojiWink style={{ fontSize: "24px", color: "black" }} />
-            </Button>
-          </Flex>
-
-          <Flex>
-            <PostTextarea
-              rows="1"
-              placeholder="댓글 달기.."
-              autoComplete="off"
-              autoCorrect="off"
-            ></PostTextarea>
-
-            <Button width="45px" bg="transparent">
-              <Text color="#0095f6">게시</Text>
-            </Button>
-          </Flex>
+          <Button margin="8px 16px 8px 0px" bg="transparent">
+            <BsEmojiWink style={{ fontSize: "24px", color: "black" }} />
+          </Button>
+          <PostTextarea
+            placeholder="댓글 달기..."
+            rows={1}
+            ref={commentRef}
+            onInput={autoGrow}
+          ></PostTextarea>
+          <Button width="50px" bg="transparent">
+            <Text color="#0095f6">게시</Text>
+          </Button>
         </Flex>
       </Flex>
     </>
@@ -182,15 +190,19 @@ const UsernameSpan = styled.span`
 `;
 
 const PostTextarea = styled.textarea`
+  color: #262626;
   background: 0 0;
-  border: 0;
-  font-size: 15px;
+  font-size: 14px;
+  line-height: 18px;
   max-height: 80px;
   outline: 0;
-  padding: 0;
-  height: auto;
-  resize: none;
+  border: none;
   width: 100%;
   display: flex;
+  resize: none;
+  text-decoration: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 export default Post;
