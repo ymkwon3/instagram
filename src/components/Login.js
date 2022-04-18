@@ -25,9 +25,7 @@ const Login = (props) => {
     let userId = idRef.current.value;
     let password = pwdRef.current.value;
 
-    console.log(userId, password);
-
-    dispatch(userActions.loginDB(userId, password));
+    dispatch(userActions.loginDB({userId, password}));
   };
 
   return (
@@ -78,7 +76,7 @@ const Login = (props) => {
           </Text>
         </Flex>
       </Button>
-      <Button margin="12px 0 0" bg="transparent">
+      <Button margin="12px 0 0" bg="transparent" _onClick={() => dispatch(userActions.loginCheckDB())}>
         <Text fontSize="12px" color="#00376b" fontWeight="400">
           비밀번호를 잊으셨나요?
         </Text>
