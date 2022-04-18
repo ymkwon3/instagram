@@ -2,32 +2,37 @@ import axios from "axios";
 import { getToken } from "./localStorage";
 // import moment from "moment";
 
-const URL = "http://3.34.129.39";
+const URL = "https://62515352dfa31c1fbd6c586e.mockapi.io";
 
-const headers = () => {
-  return { Authorization: `Bearer ${getToken()}` };
-};
+// const headers = () => {
+// return { Authorization: `Bearer ${getToken()}` };
+// };
+
+const headers = { Authorization: `Bearer ${getToken()}` };
 
 // axios get api
 const getAPI = async (api) => {
   return await axios
     .get(`${URL}${api}`, { headers })
-    .then(res => {
-      return res.data;
+    .then((res) => {
+      console.log(res);
+      // return res.data;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 };
 
 // axios post api
 const postAPI = async (api, data = {}) => {
+  console.log({ headers, data });
+
   return await axios
     .post(`${URL}${api}`, { headers, data })
-    .then(res => {
+    .then((res) => {
       return res.data;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 };
@@ -36,26 +41,24 @@ const postAPI = async (api, data = {}) => {
 const deleteAPI = async (api, data = {}) => {
   return await axios
     .delete(`${URL}${api}`, { headers, data })
-    .then(res => {
+    .then((res) => {
       return res.data;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 };
-
 
 // axios patch api
 const patchAPI = async (api, data = {}) => {
   return await axios
     .patch(`${URL}${api}`, { headers, data })
-    .then(res => {
+    .then((res) => {
       return res.data;
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
     });
 };
-
 
 export { getAPI, postAPI, deleteAPI, patchAPI };

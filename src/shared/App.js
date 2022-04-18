@@ -12,7 +12,17 @@ import { Image, Text, Flex } from "../elements";
 // styles
 import styled from "styled-components";
 
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+
 function App() {
+  // 로그인 항시 체크
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(userActions.loginCheckDB());
+  }, []);
+
   return (
     <Flex className="App" height="100vh" fd="column" jc="start" bg="#fafafa">
       <ConnectedRouter history={history}>

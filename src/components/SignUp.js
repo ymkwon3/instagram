@@ -2,7 +2,12 @@ import React from "react";
 import { AiFillFacebook } from "react-icons/ai";
 import { Image, Text, Flex, Button, InputLogin } from "../elements";
 
-const SignUp = props => {
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+
+const SignUp = (props) => {
+  const dispatch = useDispatch();
+
   const idRef = React.useRef(null);
   const nameRef = React.useRef(null);
   const pwdRef = React.useRef(null);
@@ -23,8 +28,21 @@ const SignUp = props => {
   };
 
   const clickSignUp = () => {
-    console.log("회원가입 요청해야함무라비")
-  }
+    console.log("회원가입 요청해야함무라비");
+
+    let userId = idRef.current.value;
+    let userName = nameRef.current.value;
+    let password = pwdRef.current.value;
+    let passwordCheck = pwdCheckRef.current.value;
+
+    let data = { userId, userName, password, passwordCheck };
+    console.log(data);
+    if (password !== passwordCheck) {
+      window.alert("비번이 다르자너요!! 다시 기입 ㄱㄱ");
+      return;
+    }
+    dispatch(userActions.singupDB(userId, userName, password, passwordCheck));
+  };
 
   return (
     <>
@@ -36,7 +54,14 @@ const SignUp = props => {
         margin="26px 0 32px"
       ></Image>
 
-      <Text textAlign="center" fontSize="17px" fontWeight="600" margin="0 40px 10px">친구들의 사진과 동영상을 보려면 가입하세요.</Text>
+      <Text
+        textAlign="center"
+        fontSize="17px"
+        fontWeight="600"
+        margin="0 40px 10px"
+      >
+        친구들의 사진과 동영상을 보려면 가입하세요.
+      </Text>
 
       <Button height="32px" width="270px" margin="10px 0">
         <Flex gap="8px">
