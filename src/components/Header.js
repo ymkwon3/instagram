@@ -8,7 +8,10 @@ import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 // components
 import ModalFrame from "./modal/ModalFrame";
+
+// pages
 import PostWrite from "../pages/PostWrite";
+import Messenger from "../pages/Messenger";
 
 // react-icons
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -87,7 +90,14 @@ const HeadarIcons = (props) => {
       <Flex flex="1 0 127px">
         <Flex whiteSpace="nowrap" jc="flex-end" gap="22px">
           <RiHome4Line color="#000" size="26" />
-          <RiMessage2Line color="#000" size="26" />
+          <RiMessage2Line
+            className="hoverEvent"
+            color="#000"
+            size="26"
+            onClick={() => {
+              history.push("/messenger");
+            }}
+          />
           <RiAddBoxLine
             className="hoverEvent"
             onClick={openModal}

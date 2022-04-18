@@ -11,13 +11,13 @@ const Flex = (props) => {
     padding,
     border,
     borderRadius,
-    borderTop, // new
+    borderTop,
     borderBottom,
     gap,
     position,
     top,
-    left, // new
-    right, // new
+    left,
+    right,
     fd,
     jc,
     ai,
@@ -27,16 +27,17 @@ const Flex = (props) => {
     children,
     _onClick,
     className,
-    maxWidth, // new
-    minWidth, // new
-    flex, // new
-    whiteSpace, // new
-    float, // new
-    alignContent, // new
-    minHeight, // new
-    maxHeight, // new
-    aspectRatio, // new
-    flexBasis, // new
+    maxWidth,
+    minWidth,
+    flex,
+    whiteSpace,
+    float,
+    alignContent,
+    minHeight,
+    maxHeight,
+    aspectRatio,
+    flexBasis,
+    flexWrap, // new
   } = props;
 
   const styles = {
@@ -47,29 +48,30 @@ const Flex = (props) => {
     padding,
     border,
     borderRadius,
-    borderTop, // new
+    borderTop,
     borderBottom,
     gap,
     position,
     top,
-    left, // new
-    right, // new
+    left,
+    right,
     fd,
     jc,
     ai,
     bg,
     zIndex,
     overflow,
-    maxWidth, // new
-    minWidth, // new
-    flex, // new
-    whiteSpace, // new
-    float, // new
-    alignContent, // new
-    minHeight, // new
-    maxHeight, // new
-    aspectRatio, //new
-    flexBasis, // new
+    maxWidth,
+    minWidth,
+    flex,
+    whiteSpace,
+    float,
+    alignContent,
+    minHeight,
+    maxHeight,
+    aspectRatio,
+    flexBasis,
+    flexWrap, // new
   };
   return (
     <FlexDiv onClick={_onClick} {...styles} className={className}>
@@ -85,13 +87,13 @@ Flex.defaultProps = {
   padding: "",
   border: "none",
   borderRadius: "",
-  borderTop: "", // new
+  borderTop: "",
   borderBottom: "",
   gap: "",
   position: "static",
   top: "",
-  left: "", // new
-  right: "", // new
+  left: "",
+  right: "",
   fd: "row",
   jc: "center",
   ai: "center",
@@ -99,16 +101,17 @@ Flex.defaultProps = {
   zIndex: "",
   overflow: "visible",
   _onClick: () => {},
-  maxWidth: "", // new
-  minWidth: "", // new
-  flex: "", // new
-  whiteSpace: "", // new
-  float: "", // new
-  alignContent: "", // new
-  minHeight: "", // new
-  maxHeight: "", // new
-  aspectRatio: "", // new
-  flexBasis: "", // new
+  maxWidth: "",
+  minWidth: "",
+  flex: "",
+  whiteSpace: "",
+  float: "",
+  alignContent: "",
+  minHeight: "",
+  maxHeight: "",
+  aspectRatio: "",
+  flexBasis: "",
+  flexWrap: "", // new
 };
 
 const FlexDiv = styled.div`
@@ -119,30 +122,31 @@ const FlexDiv = styled.div`
   padding: ${(props) => props.padding};
   border: ${(props) => props.border};
   border-radius: ${(props) => props.borderRadius};
-  border-top: ${(props) => props.borderTop}; // new
+  border-top: ${(props) => props.borderTop};
   border-bottom: ${(props) => props.borderBottom};
   gap: ${(props) => props.gap};
   z-index: ${(props) => props.zIndex};
   position: ${(props) => props.position};
   top: ${(props) => props.top};
-  left: ${(props) => props.left}; // new
-  right: ${(props) => props.right}; // new
+  left: ${(props) => props.left};
+  right: ${(props) => props.right};
   flex-direction: ${(props) => props.fd};
   justify-content: ${(props) => props.jc};
   align-items: ${(props) => props.ai};
   background-color: ${(props) => props.bg};
   overflow: ${(props) => props.overflow};
   color: ${(props) => props.color};
-  max-width: ${(props) => props.maxWidth}; // new
-  min-width: ${(props) => props.minWidth}; // new
-  flex: ${(props) => props.flex}; // new
-  white-space: ${(props) => props.whiteSpace}; // new
-  float: ${(props) => props.float}; // new
-  align-content: ${(props) => props.alignContent}; // new
-  min-height: ${(props) => props.minHeight}; // news
-  max-height: ${props => props.maxHeight};
-  aspect-ratio: ${(props) => props.aspectRatio}; // news
-  flex-basis: ${(props) => props.flexBasis}; // news
+  max-width: ${(props) => props.maxWidth};
+  min-width: ${(props) => props.minWidth};
+  flex: ${(props) => props.flex};
+  white-space: ${(props) => props.whiteSpace};
+  float: ${(props) => props.float};
+  align-content: ${(props) => props.alignContent};
+  min-height: ${(props) => props.minHeight};
+  max-height: ${(props) => props.maxHeight};
+  aspect-ratio: ${(props) => props.aspectRatio};
+  flex-basis: ${(props) => props.flexBasis};
+  flex-wrap: ${(props) => props.flexWrap};
 `;
 
 export default Flex;
