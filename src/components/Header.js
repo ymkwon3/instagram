@@ -31,7 +31,7 @@ import { history } from "../redux/configureStore";
 
 const Header = (props) => {
   const logoClick = () => {
-    history.push("/");
+    history.push("/main");
   };
 
   return (

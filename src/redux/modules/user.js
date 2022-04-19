@@ -28,12 +28,10 @@ const initialState = {
 // middlewaore actions
 const loginDB = (data) => {
   return async function (dispatch, getState, { history }) {
-
     postAPI("/api/login", data).then(res => {
       setToken(res.token);
+      history.replace('/main')
     });
-
-    // dispatch(setUser(userInfo)); // 테스트 후 정리하기
   };
 };
 
@@ -48,16 +46,14 @@ const singupDB = (data) => {
 const loginCheckDB = () => {
   return async function (dispatch, getState, { history }) {
    // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
-    let userInfo = getAPI("/api/islogin");
-
-    // dispatch(setUser(userInfo));
+    getAPI("/api/islogin").then(res => {
+      dispatch(setUser(res.userInfo));
+    })
   };
 };
 
 const logOutDB = () => {
   return async function (dispatch, getState, { history }) {
-    console.log("-- 로그아웃 실행");
-    removeToken();
     dispatch(logOut());
   };
 };
@@ -81,6 +77,7 @@ export default handleActions(
       produce(state, (draft) => {
         draft.userInfo = null;
         draft.is_login = false;
+        removeToken();
       }),
   },
   initialState

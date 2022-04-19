@@ -16,6 +16,7 @@ import styled from "styled-components";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+import Permit from "./Permit";
 
 function App() {
   // 로그인 항시 체크
@@ -24,17 +25,17 @@ function App() {
   React.useEffect(() => {
     dispatch(userActions.loginCheckDB());
   }, []);
-
+  
   return (
     <Flex className="App" height="100vh" fd="column" jc="start" bg="#fafafa">
       <ConnectedRouter history={history}>
-        <Header />
-        {/* <Image size={200} shape="circle"></Image>
-        <Text>아이유 너무 이뻐요</Text>z */}
+        <Route path="/" exact component={Home}></Route>
 
-        <Route path="/" exact component={Main}></Route>
-        <Route path="/home" exact component={Home}></Route>
-        <Route path="/messenger" exact component={Messenger}></Route>
+        <Permit>
+          <Header />
+          <Route path="/main" exact component={Main}></Route>
+          <Route path="/messenger" exact component={Messenger}></Route>
+        </Permit>
       </ConnectedRouter>
     </Flex>
   );
