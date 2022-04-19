@@ -14,7 +14,6 @@ const getAPI = async api => {
   return await axios
     .get(`${api}`, { headers: headers() })
     .then(res => {
-      console.log(res);
       return res.data;
     })
     .catch(err => {
@@ -27,7 +26,6 @@ const postAPI = async (api, data = {}) => {
   return await axios
     .post(`${api}`, {...data}, {headers: headers()})
     .then(res => {
-      console.log(res);
       return res.data;
     })
     .catch(err => {
