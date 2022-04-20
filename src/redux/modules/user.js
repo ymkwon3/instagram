@@ -33,7 +33,7 @@ const initialState = {
 // middlewaore actions
 const loginDB = data => {
   return async function (dispatch, getState, { history }) {
-    postAPI("/api/login", data).then(res => {
+    postAPI("/api/login", data).then((res) => {
       setToken(res.token);
       dispatch(loginCheckDB());
       history.replace("/main");

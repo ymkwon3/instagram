@@ -3,32 +3,38 @@ import React from "react";
 // elements
 import { Button, Flex, Image, Text, Textarea } from "../elements";
 
-// styles
-import styled from "styled-components";
-
 // components
 import Card from "../components/Card";
+import Chat from "../components/Chat/ChatRoom";
 
 // react-icons
-import {
-  BsPencilSquare,
-  BsChevronDown,
-  BsEmojiHeartEyes,
-} from "react-icons/bs";
+import { BsPencilSquare, BsChevronDown } from "react-icons/bs";
 import { IoMdPaperPlane } from "react-icons/io";
-import { RiErrorWarningLine } from "react-icons/ri";
-import { MdAttachFile } from "react-icons/md";
-import { BsHeart } from "react-icons/bs";
+
+import io from "socket.io-client";
+import { useSelector } from "react-redux";
+
+const socket = io.connect("http://localhost:3001"); // socket.io 서버 측을 클라이언트 측과 연결
 
 const Messenger = (props) => {
-  const messengerInput = React.useRef();
+  // const [username, setUsername] = React.useState("");
+  // const [room, setRoom] = React.useState("");
+  let username = useSelector((state) => state.user.userInfo.userId);
+  let room = 1;
+  const [showChat, setShowChat] = React.useState(false);
 
-  const [chatInput, setChatInput] = React.useState("");
-
-  const [doesChatRoomOpen, setDoesChatRoomOpen] = React.useState(false);
+  // const joinRoom = () => {
+  //   if (username !== "" && room !== "") {
+  //     socket.emit("join_room", room);
+  //     setShowChat(true);
+  //   }
+  // };
 
   const openChatRoom = () => {
-    setDoesChatRoomOpen(true);
+    if (username !== "" && room !== "") {
+      socket.emit("join_room", room);
+      setShowChat(true);
+    }
   };
 
   return (
@@ -152,108 +158,9 @@ const Messenger = (props) => {
           fd="column"
           jc="flex-start"
         >
-          {doesChatRoomOpen ? (
+          {showChat ? (
             // 클릭 후
-            <>
-              {/*Header */}
-              <Flex
-                position="absolute"
-                borderBottom="1px solid rgba(219,219,219,1)"
-              >
-                <Flex flexWrap="wrap" height="59px" zIndex="2" padding="0 20px">
-                  <Flex jc="space-between">
-                    <Card size={32} topFontSize="16px" />
-                    <RiErrorWarningLine
-                      style={{ fontSize: "28px", margin: "8px" }}
-                    />
-                  </Flex>
-                </Flex>
-              </Flex>
-              {/* 채팅창 */}
-              <Flex height="100%" ai="flex-start" fd="column">
-                <Flex
-                  padding="44px 0px 0px 0px"
-                  height="100"
-                  flex="2 1 auto"
-                  fd="column"
-                >
-                  {/* 대화창 */}
-                  <Flex
-                    height="100%"
-                    flex="1 1 auto"
-                    minHeight="0"
-                    minWidth="0"
-                  >
-                    <Flex
-                      padding="20px 20px 0"
-                      flex="0 1 auto"
-                      overflowX="hidden"
-                      overflow="auto"
-                      height="100%"
-                    >
-                      {/* 실제 대화가 이루어 지는 곳 */}
-                      <ChattingPart>
-                        <span>닝러ㅣ나어ㅣㄹ너ㅣ아러</span>
-                      </ChattingPart>
-                    </Flex>
-                  </Flex>
-
-                  {/* 채팅 입력창 */}
-                  <Flex flex="0 0 auto">
-                    <Flex padding="20px" flex="0 0 auto">
-                      <Flex
-                        jc=""
-                        borderRadius="22px"
-                        border="1px solid rgba(219,219,219,1)"
-                        minHeight="44px"
-                        padding="0px 8px 0px 11px"
-                      >
-                        <BsEmojiHeartEyes
-                          style={{ fontSize: "40px", padding: "8px" }}
-                        />
-                        <Flex
-                          margin="0px 4px 0px 0px"
-                          flex="1 1 auto"
-                          minHeight="0"
-                          minWidth="0"
-                        >
-                          <Textarea
-                            padding="8px 9px"
-                            overflow="auto"
-                            placeholder="메시지 입력...."
-                            maxLength=""
-                            ref={messengerInput}
-                            _onChange={setChatInput}
-                          ></Textarea>
-                          {chatInput.length >= 1 ? (
-                            <>
-                              <Flex jc="" width="auto" margin="13px 0px">
-                                <Text
-                                  color="rgba(0,149,246,1)"
-                                  width="50px"
-                                  textAlign="start"
-                                >
-                                  보내기
-                                </Text>
-                              </Flex>
-                            </>
-                          ) : (
-                            <>
-                              <MdAttachFile
-                                style={{ fontSize: "45px", padding: "6px 8px" }}
-                              />
-                              <BsHeart
-                                style={{ fontSize: "40px", padding: "8px" }}
-                              />
-                            </>
-                          )}
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </>
+            <Chat socket={socket} username={username} room={room} />
           ) : (
             //클릭전
             <Flex padding="24px" height="100%" fd="column" flex="0 0 auto">
@@ -280,15 +187,5 @@ const Messenger = (props) => {
 };
 
 Messenger.defaultProps = {};
-
-const ChattingPart = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-direction: column;
-  width: 100%;
-  flex-shrink: 0;
-  position: relative;
-`;
 
 export default Messenger;

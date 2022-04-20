@@ -13,6 +13,8 @@ const Text = (props) => {
     children,
     lineHeight,
     overflow,
+    _onKeyPress,
+    _onClick,
   } = props;
   const styled = {
     fontSize,
@@ -23,7 +25,11 @@ const Text = (props) => {
     lineHeight,
     width,
   };
-  return <TextStyled {...styled}>{children}</TextStyled>;
+  return (
+    <TextStyled {...styled} onClick={_onClick} onKeyPress={_onKeyPress}>
+      {children}
+    </TextStyled>
+  );
 };
 
 Text.defaultProps = {
@@ -33,6 +39,8 @@ Text.defaultProps = {
   textAlign: "start",
   lineHeight: "normal",
   width: "",
+  _onClick: () => {},
+  _onKeyPress: () => {},
 };
 
 const TextStyled = styled.div`
