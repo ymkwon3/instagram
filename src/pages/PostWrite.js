@@ -99,7 +99,7 @@ const PostWrite = props => {
               rows={7}
               placeholder="문구 입력..."
               maxLength={2200}
-              value={text}
+              _value={text}
               _onChange={setText}
             />
             <Flex

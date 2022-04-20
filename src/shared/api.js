@@ -23,7 +23,7 @@ const getAPI = async api => {
 // axios post api
 const postAPI = async (api, data = {}) => {
   return await axios
-    .post(`${api}`, {...data}, { headers: headers()})
+    .post(`${api}`, { ...data }, { headers: headers() })
     .then(res => {
       return res.data;
     })
@@ -72,4 +72,16 @@ const patchAPI = async (api, data = {}) => {
     });
 };
 
-export { getAPI, postAPI, deleteAPI, patchAPI, postFormAPI };
+// axios put api
+const putAPI = async (api, data = {}) => {
+  return await axios
+    .put(`${api}`, { ...data }, { headers: headers() })
+    .then(res => {
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export { getAPI, postAPI, deleteAPI, patchAPI, postFormAPI, putAPI };
