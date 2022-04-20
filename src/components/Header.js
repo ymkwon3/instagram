@@ -28,10 +28,23 @@ import {
 } from "react-icons/ri";
 
 import { history } from "../redux/configureStore";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
-const Header = (props) => {
+const Header = props => {
+  const dispatch = useDispatch();
   const logoClick = () => {
     history.push("/main");
+  };
+
+  // 나중에 쓰로틀로 유저 찾을 때를 대비해 state로 제작
+  const [findUser, setFindUser] = React.useState("");
+
+  const handleFindUser = e => {
+    // 인스타는 애초에 검색기능으로 친구추가하는 일이 없기 때문에, 임시방편으로 검색기능 친구추가를 한거라 따로 없는 유저인지 검사는 안함.
+    if (e.key === "Enter") {
+      dispatch(userActions.followDB(findUser));
+    }
   };
 
   return (
@@ -56,7 +69,13 @@ const Header = (props) => {
           </Flex>
         </Flex>
         <SearchDiv>
-          <SearchInput className="input" placeholder="검색"></SearchInput>
+          <SearchInput
+            className="input"
+            placeholder="검색"
+            value={findUser}
+            onChange={e => setFindUser(e.target.value)}
+            onKeyDown={handleFindUser}
+          ></SearchInput>
           <Flex className="label" width="" height="36px" bg="#efefef">
             <BiSearch className="icon" color="#8e8e8e" size="20"></BiSearch>
             <Text margin="0 0 0 10px" fontSize="16px" fontWeight="300px">
@@ -71,12 +90,12 @@ const Header = (props) => {
   );
 };
 
-const HeadarIcons = (props) => {
+const HeadarIcons = props => {
   // 모달 창
   // ===============================================================================
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
   const [modalOpen, setModalOpen] = React.useState(false);
-
+  const dispatch = useDispatch();
   const openModal = () => {
     setModalOpen(true);
   };
@@ -106,14 +125,14 @@ const HeadarIcons = (props) => {
           />
           <RiCompass3Line color="#000" size="26" />
           <AiOutlineHeart color="#000" size="26" />
-          <Image shape="circle" size={24} />
+          <Image shape="circle" size={24} _onClick={() => {
+            dispatch(userActions.logOutDB());
+            history.push("/");
+          }}/>
 
-          <ModalFrame
-            open={modalOpen}
-            close={closeModal}
-          >
+          <ModalFrame open={modalOpen} close={closeModal}>
             {/* 모달 창 main 부분 */}
-            <PostWrite />
+            <PostWrite close={closeModal}/>
           </ModalFrame>
         </Flex>
       </Flex>

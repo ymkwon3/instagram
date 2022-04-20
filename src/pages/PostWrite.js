@@ -12,40 +12,58 @@ import Card from "../components/Card";
 // packages
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreator as imageActions } from "../redux/modules/image";
+import { actionCreators as postActions } from "../redux/modules/post";
 
 // react-icons
-import { BsEmojiDizzy, BsChevronDown } from "react-icons/bs";
+import { BsChevronDown } from "react-icons/bs";
 import { FiSmile } from "react-icons/fi";
 import { GoLocation } from "react-icons/go";
 
-const PostWrite = () => {
+const PostWrite = props => {
   const dispatch = useDispatch();
   const preview = useSelector(state => state.image.preview);
-
+  const { close, type, PostId, userId, imageUrl, content } = props;
   // const is_uploading = useSelector((state) => state.image.uploading);
   const [file, setFile] = React.useState(null);
-  const textInput = React.useRef("");
-  const [text, setText] = React.useState("");
-
+  const [text, setText] = React.useState(content ? content : "");
   const handleFileSelect = e => {
     setFile(e.target.files[0]);
+    //사진선택 시, 미리보기
     dispatch(imageActions.setPreview(URL.createObjectURL(e.target.files[0])));
   };
+
+  const handlePostWrite = () => {
+    const formData = new FormData();
+    formData.append("imageUrl", file);
+    formData.append("content", text);
+    if (type === "edit") {
+      dispatch(postActions.editPostDB(formData, PostId));
+    } else {
+      dispatch(postActions.uploadPostDB(formData));
+    }
+    close();
+  };
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(imageActions.setPreview(null));
+    };
+  }, []);
 
   return (
     <section className="add">
       <Flex fd="column">
         <Flex height="42px" borderBottom="1px solid #dbdbdb">
           <Text fontWeight="600" fontSize="16px" color="#262626">
-            새 게시물 만들기
+            {type === "edit" ? "정보 수정" : "새 게시물 만들기"}
           </Text>
           <Button
             className="rightBtn"
             bg="transparent"
             color="#0095f6"
-            _onClick={() => console.log("작성하기만들어야함무라비")}
+            _onClick={handlePostWrite}
           >
-            공유하기
+            {type === "edit" ? "완료" : "공유하기"}
           </Button>
         </Flex>
         <Flex ai="start" height="100%">
@@ -61,7 +79,9 @@ const PostWrite = () => {
                 src={
                   preview
                     ? preview
-                    : "https://file.mk.co.kr/meet/neds/2021/12/image_readtop_2021_1116084_16386257784873056.jpg"
+                    : imageUrl
+                    ? imageUrl
+                    : "https://screenshotlayer.com/images/assets/placeholder.png"
                 }
               />
             </Flex>

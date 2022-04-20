@@ -1,17 +1,17 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
-import { getAPI, postAPI, deleteAPI, patchAPI } from "../../shared/api";
+import { getAPI, postAPI, deleteAPI, postFormAPI } from "../../shared/api";
 
 // actions
 const UPLOAD_POST = "UPLOAD_POST";
-const GET_POSTLIST = "GET_POSTLIST";
+const SET_POST = "SET_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
 // action creators
 const uploadPost = createAction(UPLOAD_POST, (post) => ({ post }));
-const getPostList = createAction(GET_POSTLIST, (postList) => ({ postList }));
+const setPost = createAction(SET_POST, (postList) => ({ postList }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (postId) => ({ postId }));
 
@@ -29,39 +29,39 @@ const initialPost = {
 };
 
 // middlewaore actions
-const uploadPostDB = (content, imageUrl) => {
+const uploadPostDB = (formData) => {
   return async function (dispatch, getState, { history }) {
-    let data = { content: content, imageUrl: imageUrl };
-
-    console.log(postAPI("/api/posts", data));
-
-    dispatch(uploadPost(postAPI("/api/posts", data)));
+    postFormAPI("/api/posts", formData).then(res => {
+      console.log(res);
+      dispatch(uploadPost(res.postList));
+    });
   };
 };
 
-const getPostListDB = () => {
+const getPostListDB = (idList) => {
   return async function (dispatch, getState, { history }) {
-    console.log(getAPI("/api/postList"));
-
-    dispatch(getPostList(getAPI("/api/postList")));
+    postAPI("/api/postList", {idList}).then((res) => {
+      dispatch(setPost(res))
+    })
   };
 };
 
-const editPostDB = (postId, content, imageUrl) => {
+const editPostDB = (formData, postId) => {
   return async function (dispatch, getState, { history }) {
-    let data = { content: content, imageUrl: imageUrl };
-
-    console.log(patchAPI(`/api/posts/${postId}`, data));
-
-    dispatch(editPost(patchAPI("/api/posts", data)));
+    postFormAPI(`/api/postsEdit/${postId}`, formData).then(res => {
+      console.log(res);
+      dispatch(editPost(res.postList));
+    });
   };
 };
+
 
 const deletePostDB = (postId) => {
   return async function (dispatch, getState, { history }) {
-    console.log(deleteAPI(`/api/posts/${postId}`));
-
-    dispatch(deletePost(postId));
+    console.log(postId)
+    deleteAPI(`/api/posts/${postId}`).then(res => {
+      dispatch(deletePost(postId));
+    });
   };
 };
 
@@ -73,18 +73,23 @@ export default handleActions(
         draft.postList = [action.payload.post, ...draft.postList];
       }),
 
-    [GET_POSTLIST]: (state, action) =>
+    [SET_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.postList = action.payload.postList;
       }),
     [EDIT_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.postList = [...draft.postList, ...action.payload.post];
+        draft.postList = draft.postList.map(p => {
+          if(p.PostId === action.payload.post.PostId) {
+            return action.payload.post;
+          }
+          return p
+        })
       }),
     [DELETE_POST]: (state, action) =>
       produce(state, (draft) => {
         draft.postList = draft.postList.filter(
-          (post) => post.postId !== action.payload.postId
+          (post) => post.PostId !== action.payload.postId
         );
       }),
   },

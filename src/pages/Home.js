@@ -28,7 +28,7 @@ const Home = props => {
             borderRadius="1px"
             margin="0 0 10px"
           >
-            {loginPage ? <Login></Login> : <Signup></Signup>}
+            {loginPage ? <Login></Login> : <Signup goLoginPage={goLoginPage}></Signup>}
           </Flex>
           <Flex
             border="1px solid #dbdbdb"

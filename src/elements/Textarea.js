@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Textarea = React.forwardRef((props, ref) => {
-  const { rows, placeholder, padding, bg, maxLength, _onChange, overflow } =
+  const { rows, placeholder, padding, bg, maxLength, value, _onChange, overflow } =
     props;
   return (
     <TextareaStyled
@@ -14,6 +14,7 @@ const Textarea = React.forwardRef((props, ref) => {
       ref={ref}
       maxLength={maxLength} // new2
       padding={padding}
+      value={value}
       onChange={(e) => _onChange(e.target.value)}
       overflow={overflow}
     ></TextareaStyled>

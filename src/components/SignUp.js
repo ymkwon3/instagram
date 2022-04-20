@@ -4,8 +4,10 @@ import { Image, Text, Flex, Button, InputLogin } from "../elements";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { postAPI } from "../shared/api";
 
 const SignUp = (props) => {
+  const {goLoginPage} = props;
   const dispatch = useDispatch();
 
   const idRef = React.useRef(null);
@@ -29,20 +31,39 @@ const SignUp = (props) => {
 
   const clickSignUp = () => {
     console.log("회원가입 요청해야함무라비");
-    // dispatch(userActions.idCheckDB(idRef.current.value));
     let userId = idRef.current.value;
     let userName = nameRef.current.value;
     let password = pwdRef.current.value;
     let passwordCheck = pwdCheckRef.current.value;
 
     
-    // if (password !== passwordCheck) {
-    //   window.alert("비번이 다르자너요!! 다시 기입 ㄱㄱ");
-    //   return;
-    // }
+    if (password !== passwordCheck) {
+      window.alert("비밀번호가 다릅니다.");
+      return;
+    }
     let data = { userId, userName, password, passwordCheck };
     dispatch(userActions.singupDB(data));
+    goLoginPage();
   };
+
+  const handleIdCheck = () => {
+    // 아이디 중복 확인시, 틀린 값이거나, 중복된 값이면 403에러 그런데 res는 undefined로 옴
+    let userId = idRef.current.value;
+    if(!userId.length){
+      return;
+    } 
+    if(userId.length < 4) {
+      alert("아이디는 4자리 이상입니다.");
+      return;
+    }
+    postAPI('/api/idCheck', {userId}).then(res => {
+      if(res) {
+        alert("사용 가능한 아이디입니다.");
+      }else {
+        alert("사용 불가능한 아이디입니다.");
+      }
+    })
+  }
 
   return (
     <>
@@ -86,6 +107,7 @@ const SignUp = (props) => {
         label="아이디"
         ref={idRef}
         _onChange={isBtn}
+        _onBlur={handleIdCheck}
       ></InputLogin>
       <InputLogin
         margin="0 0 8px"
