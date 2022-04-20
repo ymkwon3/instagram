@@ -11,10 +11,11 @@ import Card from "../components/Card";
 import ModalFrame from "./modal/ModalFrame";
 import PostDetails from "../pages/PostDetails";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as userActions } from "../redux/modules/user";
 // react-icons
 import { BsThreeDots } from "react-icons/bs";
 import { HiOutlineChat } from "react-icons/hi";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { FiSmile } from "react-icons/fi";
 import { BiShareAlt } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
@@ -25,7 +26,16 @@ import ModalPostM from "./modal/ModalPostM";
 import PostWrite from "../pages/PostWrite";
 
 const Post = props => {
-  const { PostId, content, imageUrl, createdAt, userId, currentUserId } = props;
+  const {
+    PostId,
+    content,
+    imageUrl,
+    createdAt,
+    userId,
+    currentUserId,
+    likes,
+    isLiked,
+  } = props;
   const editProps = { imageUrl, userId, PostId, content };
   // 모달 여닫기
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -72,18 +82,30 @@ const Post = props => {
     }
   };
 
+  const clickLike = () => {
+    // 모듈이 다르더라도 액션이 같으면 동시에 실행됨
+    dispatch(userActions.likeDB(PostId));
+    dispatch(postActions.setLike(PostId, true));
+  };
+
+  const clickUnLike = () => {
+    dispatch(userActions.unLikeDB(PostId));
+    dispatch(postActions.setLike(PostId, false));
+  };
+
   return (
     <>
       <ModalFrame open={modalOpen} close={closeModal}>
         {/* 모달 창 main 부분 */}
         {modalType === "detail" ? (
-          <PostDetails {...props} />
+          <PostDetails {...props} isLiked={isLiked}/>
         ) : modalType === "management" ? (
           <ModalPostM remove={removePost} edit={() => setModalType("edit")} />
         ) : (
           <PostWrite type="edit" close={closeModal} {...editProps} />
         )}
       </ModalFrame>
+
       <Flex
         fd="column"
         jc="stretch"
@@ -119,13 +141,28 @@ const Post = props => {
         {/* 게시글 bottom 부분 */}
         <Flex>
           {/* 첫번째 줄 */}
-          <Flex ai="center" jc="space-between" padding="16px 16px">
+          <Flex ai="center" jc="space-between" padding="12px 16px">
             <Flex jc="start" gap="16px">
-              <AiOutlineHeart
-                className="iconHoverEvent"
-                color="#000"
-                size="26"
-              />
+              {!isLiked ? (
+                <AiOutlineHeart
+                  className="iconHoverEvent"
+                  color="#000"
+                  size="26"
+                  onClick={() => {
+                    clickLike();
+                  }}
+                />
+              ) : (
+                <AiFillHeart
+                  className="iconHoverEvent"
+                  color="#ed4956"
+                  size="26"
+                  onClick={() => {
+                    clickUnLike();
+                  }}
+                />
+              )}
+
               <HiOutlineChat
                 className="iconHoverEvent"
                 color="#000"
@@ -140,7 +177,11 @@ const Post = props => {
             <RiBookmarkLine className="iconHoverEvent" color="#000" size="26" />
           </Flex>
         </Flex>
-
+        <Flex jc="flex-start" padding="3px 18px">
+          <Text fontSize="14px" fontWeight="600" color="#000">
+            좋아요 {likes}개
+          </Text>
+        </Flex>
         <Flex jc="flex-start" padding="3px 18px">
           <Text fontSize="10px">{moment(createdAt).fromNow()}</Text>
         </Flex>

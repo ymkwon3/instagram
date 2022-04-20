@@ -11,19 +11,25 @@ import Card from "../components/Card";
 
 // react-icons
 import { BsThreeDots } from "react-icons/bs";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BiShareAlt } from "react-icons/bi";
 import { FiSmile } from "react-icons/fi";
 import { HiOutlineChat } from "react-icons/hi";
 import { RiBookmarkLine } from "react-icons/ri";
 import moment from "moment";
-import 'moment/locale/ko'
-
+import "moment/locale/ko";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as commentActions } from "../redux/modules/comment";
+import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const PostDetails = props => {
-  const { PostID, content, createdAt, imageUrl, likes, userId } = props;
+  const { PostId, content, createdAt, imageUrl, likes, userId, currentUserId, isLiked } =
+    props;
   const commentRef = React.useRef(null);
-
+  const dispatch = useDispatch();
+  const comments = useSelector(state => state.comment.commentList);
+  
   const autoGrow = () => {
     const padding = 4; // 패딩값
     const lineHeight = 18; // 라인높이
@@ -39,6 +45,29 @@ const PostDetails = props => {
       commentRef.current.rows = 1;
     }
   };
+
+  const clickLike = () => {
+    // 모듈이 다르더라도 액션이 같으면 동시에 실행됨
+    dispatch(userActions.likeDB(PostId));
+    dispatch(postActions.setLike(PostId, true));
+  };
+
+  const clickUnLike = () => {
+    dispatch(userActions.unLikeDB(PostId));
+    dispatch(postActions.setLike(PostId, false));
+  };
+
+  const commentWrite = () => {
+    dispatch(commentActions.uploadCommentDB(PostId, commentRef.current.value));
+  };
+
+  const commentDelete = commentId => {
+    dispatch(commentActions.deleteCommentDB(commentId));
+  };
+
+  React.useEffect(() => {
+    dispatch(commentActions.getCommentDB(PostId));
+  }, []);
 
   return (
     <Flex className="detail">
@@ -64,32 +93,67 @@ const PostDetails = props => {
         <Flex padding="16px" fd="column" height="100%" jc="start">
           <Flex jc="space-between" height="50px">
             <Card userId={userId} content={content}></Card>
-            <AiOutlineHeart className="iconHoverEvent" color="#323232" />
           </Flex>
           {/* commentlist */}
-          <Flex jc="space-between" height="50px">
-            <Card name="3일"></Card>
-            <AiOutlineHeart className="iconHoverEvent" color="#323232" />
-          </Flex>
-          <Flex jc="space-between" height="50px">
-            <Card></Card>
-            <AiOutlineHeart className="iconHoverEvent" color="#323232" />
-          </Flex>
-          <Flex jc="space-between" height="50px">
-            <Card></Card>
-            <AiOutlineHeart className="iconHoverEvent" color="#323232" />
-          </Flex>
+          {comments.map(v => (
+            <Flex key={v.commentId} jc="space-between" height="50px">
+              <Card
+                name={moment(v.createdAt).fromNow()}
+                content={v.comment}
+                userId={v.userId}
+              ></Card>
+              {v.userId === currentUserId ? (
+                <Button
+                  padding="0"
+                  bg="transparent"
+                  _onClick={() => commentDelete(v.commentId)}
+                >
+                  <Text width="40px" color="#ed4956">
+                    삭제
+                  </Text>
+                </Button>
+              ) : null}
+              <AiOutlineHeart className="iconHoverEvent" color="#323232" />
+            </Flex>
+          ))}
         </Flex>
         {/* bottom */}
         <Flex>
-          <Flex ai="center" jc="space-between" padding="16px 16px">
+          <Flex ai="center" jc="space-between" padding="12px 16px">
             <Flex jc="start" gap="16px">
-              <AiOutlineHeart className="iconHoverEvent" color="#000" size="26"/>
-              <HiOutlineChat className="iconHoverEvent" color="#000" size="26"/>
+            {!isLiked ? (
+                <AiOutlineHeart
+                  className="iconHoverEvent"
+                  color="#000"
+                  size="26"
+                  onClick={() => {
+                    clickLike();
+                  }}
+                />
+              ) : (
+                <AiFillHeart
+                  className="iconHoverEvent"
+                  color="#ed4956"
+                  size="26"
+                  onClick={() => {
+                    clickUnLike();
+                  }}
+                />
+              )}
+              <HiOutlineChat
+                className="iconHoverEvent"
+                color="#000"
+                size="26"
+              />
               <BiShareAlt className="iconHoverEvent" color="#000" size="26" />
             </Flex>
             <RiBookmarkLine className="iconHoverEvent" color="#000" size="26" />
           </Flex>
+        </Flex>
+        <Flex jc="flex-start" padding="3px 18px">
+          <Text fontSize="14px" fontWeight="600" color="#000">
+            좋아요 {likes}개
+          </Text>
         </Flex>
         <Flex jc="flex-start" padding="3px 18px">
           <Text fontSize="10px">{moment(createdAt).fromNow()}</Text>
@@ -114,7 +178,7 @@ const PostDetails = props => {
             ref={commentRef}
             onInput={autoGrow}
           ></PostTextarea>
-          <Button width="60px" bg="transparent">
+          <Button width="60px" bg="transparent" _onClick={commentWrite}>
             <Text color="#0095f6">게시</Text>
           </Button>
         </Flex>

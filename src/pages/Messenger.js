@@ -14,7 +14,7 @@ import { IoMdPaperPlane } from "react-icons/io";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 
-const socket = io.connect("http://localhost:3001"); // socket.io 서버 측을 클라이언트 측과 연결
+const socket = io.connect("http://3.34.132.47"); // socket.io 서버 측을 클라이언트 측과 연결
 
 const Messenger = (props) => {
   // const [username, setUsername] = React.useState("");
@@ -23,12 +23,12 @@ const Messenger = (props) => {
   let room = 1;
   const [showChat, setShowChat] = React.useState(false);
 
-  // const joinRoom = () => {
-  //   if (username !== "" && room !== "") {
-  //     socket.emit("join_room", room);
-  //     setShowChat(true);
-  //   }
-  // };
+  const joinRoom = () => {
+    if (username !== "" && room !== "") {
+      socket.emit("join_room", room);
+      setShowChat(true);
+    }
+  };
 
   const openChatRoom = () => {
     if (username !== "" && room !== "") {

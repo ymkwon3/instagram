@@ -8,28 +8,21 @@ const UPLOAD_POST = "UPLOAD_POST";
 const SET_POST = "SET_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
+const SET_LIKECNT = "SET_LIKECNT";
 
 // action creators
-const uploadPost = createAction(UPLOAD_POST, (post) => ({ post }));
-const setPost = createAction(SET_POST, (postList) => ({ postList }));
-const editPost = createAction(EDIT_POST, (post) => ({ post }));
-const deletePost = createAction(DELETE_POST, (postId) => ({ postId }));
+const uploadPost = createAction(UPLOAD_POST, post => ({ post }));
+const setPost = createAction(SET_POST, postList => ({ postList }));
+const setLike = createAction(SET_LIKECNT, (postId, like) => ({ postId, like }));
+const editPost = createAction(EDIT_POST, post => ({ post }));
+const deletePost = createAction(DELETE_POST, postId => ({ postId }));
 
 const initialState = {
   postList: [],
 };
 
-const initialPost = {
-  postId: "",
-  content: "",
-  imageUrl: "",
-  createdAt: "",
-  userId: "",
-  // 추가적인 변수가 생길 시 추가
-};
-
 // middlewaore actions
-const uploadPostDB = (formData) => {
+const uploadPostDB = formData => {
   return async function (dispatch, getState, { history }) {
     postFormAPI("/api/posts", formData).then(res => {
       console.log(res);
@@ -38,11 +31,11 @@ const uploadPostDB = (formData) => {
   };
 };
 
-const getPostListDB = (idList) => {
+const getPostListDB = idList => {
   return async function (dispatch, getState, { history }) {
-    postAPI("/api/postList", {idList}).then((res) => {
-      dispatch(setPost(res))
-    })
+    postAPI("/api/postList", { idList }).then(res => {
+      dispatch(setPost(res));
+    });
   };
 };
 
@@ -50,15 +43,14 @@ const editPostDB = (formData, postId) => {
   return async function (dispatch, getState, { history }) {
     postFormAPI(`/api/postsEdit/${postId}`, formData).then(res => {
       console.log(res);
-      dispatch(editPost(res.postList));
+      // dispatch(editPost(res.postList));
     });
   };
 };
 
-
-const deletePostDB = (postId) => {
+const deletePostDB = postId => {
   return async function (dispatch, getState, { history }) {
-    console.log(postId)
+    console.log(postId);
     deleteAPI(`/api/posts/${postId}`).then(res => {
       dispatch(deletePost(postId));
     });
@@ -69,27 +61,36 @@ const deletePostDB = (postId) => {
 export default handleActions(
   {
     [UPLOAD_POST]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.postList = [action.payload.post, ...draft.postList];
       }),
 
     [SET_POST]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.postList = action.payload.postList;
       }),
+    [SET_LIKECNT]: (state, action) =>
+      produce(state, draft => {
+        draft.postList = draft.postList.map(v => {
+          if (v.PostId === action.payload.postId) {
+            v.likes += action.payload.like ? 1 : -1;
+          }
+          return v;
+        });
+      }),
     [EDIT_POST]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.postList = draft.postList.map(p => {
-          if(p.PostId === action.payload.post.PostId) {
+          if (p.PostId === action.payload.post.PostId) {
             return action.payload.post;
           }
-          return p
-        })
+          return p;
+        });
       }),
     [DELETE_POST]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.postList = draft.postList.filter(
-          (post) => post.PostId !== action.payload.postId
+          post => post.PostId !== action.payload.postId
         );
       }),
   },
@@ -101,6 +102,7 @@ const actionCreators = {
   getPostListDB,
   editPostDB,
   deletePostDB,
+  setLike,
 };
 
 export { actionCreators };

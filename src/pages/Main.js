@@ -1,10 +1,7 @@
 import React from "react";
 
-// styles
-import styled from "styled-components";
-
 // elements
-import { Button, Flex, Image, Text, Textarea } from "../elements";
+import { Flex } from "../elements";
 
 // components
 import Recommendation from "../components/Recommendation";
@@ -14,10 +11,11 @@ import Post from "../components/Post";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 
-const Main = (props) => {
+const Main = props => {
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post.postList);
+  const postList = useSelector(state => state.post.postList);
   const userInfo = useSelector(state => state.user.userInfo);
+  const likeList = useSelector(state => state.user.likePosts);
 
   React.useEffect(() => {
     dispatch(postActions.getPostListDB([...userInfo.follow, userInfo.userId]));
@@ -39,7 +37,12 @@ const Main = (props) => {
           maxWidth="614px"
         >
           {postList?.map((post, idx) => (
-            <Post key={post.PostId} {...post} currentUserId={userInfo.userId}/>
+            <Post
+              key={post.PostId}
+              {...post}
+              currentUserId={userInfo.userId}
+              isLiked={likeList.find(e => e === post.PostId)}
+            />
           ))}
         </Flex>
         <Recommendation />
