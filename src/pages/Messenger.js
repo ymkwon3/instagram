@@ -5,22 +5,37 @@ import { Button, Flex, Image, Text, Textarea } from "../elements";
 
 // components
 import Card from "../components/Card";
-import Chat from "../components/Chat/ChatRoom";
+import ChatRoom from "../components/Chat/ChatRoom";
+import ModalFrame from "../components/modal/ModalFrame";
+import ModalAddChat from "../components/modal/ModalAddChat";
 
 // react-icons
 import { BsPencilSquare, BsChevronDown } from "react-icons/bs";
 import { IoMdPaperPlane } from "react-icons/io";
 
 import io from "socket.io-client";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-const socket = io.connect("http://3.34.132.47"); // socket.io 서버 측을 클라이언트 측과 연결
-
+const socket = io.connect("http://3.34.132.47:80"); // socket.io 서버 측을 클라이언트 측과 연결
+// const socket = io.connect("http://localhost:3001");
 const Messenger = (props) => {
+  // 모달창
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const [messageList, setMessageList] = React.useState([]);
+  const user_rooms = useSelector((state) => state.user.userInfo.follow);
+  console.log(user_rooms);
+
   // const [username, setUsername] = React.useState("");
   // const [room, setRoom] = React.useState("");
   let username = useSelector((state) => state.user.userInfo.userId);
-  let room = 1;
+  let [room, setRoom] = React.useState("");
   const [showChat, setShowChat] = React.useState(false);
 
   const joinRoom = () => {
@@ -30,7 +45,17 @@ const Messenger = (props) => {
     }
   };
 
-  const openChatRoom = () => {
+  const openChatRoom = (follow) => {
+    setMessageList([]);
+    let roomNum = "";
+    if (username > follow) {
+      roomNum = username + follow;
+    } else {
+      roomNum = follow + username;
+    }
+    // let roomNum = (username + follow).split("").sort().reverse().join("");
+    setRoom(roomNum);
+    console.log(room);
     if (username !== "" && room !== "") {
       socket.emit("join_room", room);
       setShowChat(true);
@@ -130,17 +155,23 @@ const Messenger = (props) => {
               jc="flex-start"
               overscrollBehavior="contain"
             >
-              <Card
-                hoverEvent="pointer"
-                padding="8px 20px"
-                size={56}
-                name="마지막 메시지를 표시하여 주세요"
-                topFontSize="18px"
-                topFontWeight="400"
-                bottomfontSize="18px"
-                bottoTextmMargin="6px 0px 0px 0px"
-                _onClick={openChatRoom}
-              />
+              {user_rooms.map((follow, idx) => {
+                return (
+                  <Card
+                    key={follow + idx}
+                    userId={follow}
+                    hoverEvent="pointer"
+                    padding="8px 20px"
+                    size={56}
+                    name="마지막 메시지를 표시하여 주세요"
+                    topFontSize="18px"
+                    topFontWeight="400"
+                    bottomfontSize="18px"
+                    bottoTextmMargin="6px 0px 0px 0px"
+                    _onClick={() => openChatRoom(follow)}
+                  />
+                );
+              })}
             </Flex>
           </Flex>
         </Flex>
@@ -160,7 +191,13 @@ const Messenger = (props) => {
         >
           {showChat ? (
             // 클릭 후
-            <Chat socket={socket} username={username} room={room} />
+            <ChatRoom
+              socket={socket}
+              username={username}
+              room={room}
+              setMessageList={setMessageList}
+              messageList={messageList}
+            />
           ) : (
             //클릭전
             <Flex padding="24px" height="100%" fd="column" flex="0 0 auto">
@@ -175,9 +212,14 @@ const Messenger = (props) => {
                 margin="16px 0px 0px 0px"
                 padding="5px 9px"
                 fontSize="14px"
+                _onClick={openModal}
               >
                 메시지 보내기
               </Button>
+              <ModalFrame open={modalOpen} close={closeModal}>
+                {/* 모달 창 main 부분 */}
+                <ModalAddChat close={closeModal} />
+              </ModalFrame>
             </Flex>
           )}
         </Flex>
