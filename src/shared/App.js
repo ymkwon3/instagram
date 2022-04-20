@@ -25,7 +25,7 @@ function App() {
   React.useEffect(() => {
     dispatch(userActions.loginCheckDB());
   }, []);
-  
+
   return (
     <Flex className="App" height="100vh" fd="column" jc="start" bg="#fafafa">
       <ConnectedRouter history={history}>

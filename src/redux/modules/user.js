@@ -28,9 +28,10 @@ const initialState = {
 // middlewaore actions
 const loginDB = (data) => {
   return async function (dispatch, getState, { history }) {
-    postAPI("/api/login", data).then(res => {
+    postAPI("/api/login", data).then((res) => {
       setToken(res.token);
-      history.replace('/main')
+      dispatch(setUser({ userId: data.userId }));
+      history.replace("/main");
     });
   };
 };
@@ -39,16 +40,16 @@ const singupDB = (data) => {
   return async function (dispatch, getState, { history }) {
     console.log(data);
 
-    postAPI("/api/signUp", data)
+    postAPI("/api/signUp", data);
   };
 };
 
 const loginCheckDB = () => {
   return async function (dispatch, getState, { history }) {
-   // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
-    getAPI("/api/islogin").then(res => {
+    // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
+    getAPI("/api/islogin").then((res) => {
       dispatch(setUser(res.userInfo));
-    })
+    });
   };
 };
 
@@ -60,7 +61,7 @@ const logOutDB = () => {
 
 const idCheckDB = (userId) => {
   return async function (dispatch, getState, { history }) {
-    postAPI("/api/idCheck", {userId});
+    postAPI("/api/idCheck", { userId });
     // 아직 사용 용도를 몰라 해당 리듀서를 만들진 않았습니다.
   };
 };
@@ -70,7 +71,8 @@ export default handleActions(
   {
     [SET_USER]: (state, action) =>
       produce(state, (draft) => {
-        draft.userInfo = action.payload.user;
+        console.log(action.payload.user);
+        draft.userInfo = { ...draft.userInfo, ...action.payload.user };
         draft.is_login = true;
       }),
     [LOG_OUT]: (state, action) =>
