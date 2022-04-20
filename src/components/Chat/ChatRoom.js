@@ -17,9 +17,9 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { MdAttachFile } from "react-icons/md";
 import { BsHeart } from "react-icons/bs";
 
-function Chat({ socket, username, room }) {
+function Chat({ socket, username, room, setMessageList, messageList }) {
   const [currentMessage, setCurrentMessage] = React.useState("");
-  const [messageList, setMessageList] = React.useState([]);
+  // const [messageList, setMessageList] = React.useState([]);
 
   //   const [chatInput, setChatInput] = React.useState("");
   //   const messageRef = React.useRef();
@@ -45,6 +45,7 @@ function Chat({ socket, username, room }) {
 
   React.useEffect(() => {
     socket.on("receive_message", (data) => {
+      console.log(data);
       // 내가보낸 메시지를 상대방 화면에 띄운다.
       setMessageList((list) => [...list, data]); // 여기서 list는 현재까지 받은 메세지 리스트를 의미
     });

@@ -22,7 +22,6 @@ const Textarea = React.forwardRef((props, ref) => {
       ref={ref}
       maxLength={maxLength} // new2
       padding={padding}
-      value={value}
       onChange={(e) => _onChange(e.target.value)}
       overflow={overflow}
       value={_value}

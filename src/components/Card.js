@@ -47,7 +47,13 @@ const Card = (props) => {
           <Image shape="circle" {...styles} />
         </Flex>
 
-        <Flex width="fit-content" fd="column" ai="flex-start" gap="3px" margin="0 10px 0 14px">
+        <Flex
+          width="fit-content"
+          fd="column"
+          ai="flex-start"
+          gap="3px"
+          margin="0 10px 0 14px"
+        >
           <Text
             fontSize={topFontSize ? topFontSize : "14px"}
             color="#262626"
