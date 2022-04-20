@@ -17,15 +17,18 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import Permit from "./Permit";
+import { getToken } from "./localStorage";
 
 function App() {
   // 로그인 항시 체크
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(userActions.loginCheckDB());
+    if (getToken()) {
+      dispatch(userActions.loginCheckDB());
+    }
   }, []);
-  
+
   return (
     <Flex className="App" height="100vh" fd="column" jc="start" bg="#fafafa">
       <ConnectedRouter history={history}>

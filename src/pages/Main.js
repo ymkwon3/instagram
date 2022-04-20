@@ -16,11 +16,11 @@ import { actionCreators as postActions } from "../redux/modules/post";
 
 const Main = (props) => {
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post?.postList);
-  console.log(postList);
+  const postList = useSelector((state) => state.post.postList);
+  const userInfo = useSelector(state => state.user.userInfo);
 
   React.useEffect(() => {
-    dispatch(postActions.getPostListDB());
+    dispatch(postActions.getPostListDB([...userInfo.follow, userInfo.userId]));
   }, []);
 
   return (
@@ -38,13 +38,8 @@ const Main = (props) => {
           margin="0px 28px 0px 0px"
           maxWidth="614px"
         >
-          <Post imageUrl="https://scontent-atl3-1.cdninstagram.com/v/t51.29350-15/278070637_1173735450111264_6880398074226860271_n.jpg?_nc_cat=109&ccb=1-5&_nc_sid=8ae9d6&_nc_ohc=kOfWh5OYa1EAX_jXs71&_nc_ht=scontent-atl3-1.cdninstagram.com&oh=00_AT-53J2hLOxyOjdOTfvuaEuNirOdcU4p_Xxv91nj7QNl-A&oe=6260AB31"/>
-          <Post />
-          <Post imageUrl="https://post-phinf.pstatic.net/MjAyMDAyMjhfNyAg/MDAxNTgyODc1MjE5OTI2.E17Bhe29zfHHo2cq3gxizQvG7vabgtS19-FKCLB6Zygg.i4UXMjzfL3D7xWdGRghvWCco0-8CFlHVSU9-VIqXQZ0g.GIF/ec8820408bcf838979006d65a9a8f279.gif?type=w1200"/>
-          <Post imageUrl="http://img.etoday.co.kr/pto_db/2020/12/20201209044925_1552354_710_340.jpg"/>
-          <Post imageUrl="http://newsimg.hankookilbo.com/2018/09/18/201809181844065492_4.jpg"/>
           {postList?.map((post, idx) => (
-            <Post key={post.postId} {...post} />
+            <Post key={post.PostId} {...post} currentUserId={userInfo.userId}/>
           ))}
         </Flex>
         <Recommendation />

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Image = props => {
-  const { shape, src, size, width, height, margin, paddingTop } = props;
+  const { shape, src, size, width, height, margin, paddingTop, _onClick } = props;
 
   const styles = {
     src,
@@ -14,7 +14,7 @@ const Image = props => {
   };
 
   if (shape === "circle") {
-    return <ImageCircle {...styles}></ImageCircle>;
+    return <ImageCircle {...styles} onClick={_onClick}></ImageCircle>;
   }
   if (shape === "square") {
     return (
@@ -38,6 +38,7 @@ Image.defaultProps = {
   paddingTop: "75%",
   width: "100%",
   height: "auto",
+  _onClick: () => {},
 };
 
 const AspectOutter = styled.div`

@@ -4,12 +4,13 @@ import React from "react";
 import styled from "styled-components";
 
 // elements
-import { Button, Flex, Image, Text, Textarea } from "../elements";
+import { Button, Flex, Image, Text } from "../elements";
 
 // components
 import Card from "../components/Card";
 import ModalFrame from "./modal/ModalFrame";
 import PostDetails from "../pages/PostDetails";
+import { actionCreators as postActions } from "../redux/modules/post";
 // react-icons
 import { BsThreeDots } from "react-icons/bs";
 import { HiOutlineChat } from "react-icons/hi";
@@ -17,12 +18,23 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { FiSmile } from "react-icons/fi";
 import { BiShareAlt } from "react-icons/bi";
 import { RiBookmarkLine } from "react-icons/ri";
-import { BsEmojiWink } from "react-icons/bs";
-import { history } from "../redux/configureStore";
+import moment from "moment";
+import "moment/locale/ko";
+import { useDispatch } from "react-redux";
+import ModalPostM from "./modal/ModalPostM";
+import PostWrite from "../pages/PostWrite";
 
 const Post = props => {
-  const { postId, content, imageUrl, createdAt, userId } = props;
+  const { PostId, content, imageUrl, createdAt, userId, currentUserId } = props;
+  const editProps = { imageUrl, userId, PostId, content };
+  // 모달 여닫기
   const [modalOpen, setModalOpen] = React.useState(false);
+
+  // 열리는 모달 종류
+  const [modalType, setModalType] = React.useState("");
+
+  const commentRef = React.useRef(null);
+  const dispatch = useDispatch();
 
   const openModal = () => {
     setModalOpen(true);
@@ -31,9 +43,9 @@ const Post = props => {
     setModalOpen(false);
   };
 
-  const commentRef = React.useRef(null);
-
   const autoGrow = () => {
+    // 댓글 창 영역 설정
+
     const padding = 4; // 패딩값
     const lineHeight = 18; // 라인높이
 
@@ -49,11 +61,28 @@ const Post = props => {
     }
   };
 
+  // 게시물 삭제
+  const removePost = () => {
+    if (
+      currentUserId === userId &&
+      window.confirm("정말로 게시물을 삭제하시겠습니까?")
+    ) {
+      dispatch(postActions.deletePostDB(PostId));
+      closeModal();
+    }
+  };
+
   return (
     <>
       <ModalFrame open={modalOpen} close={closeModal}>
         {/* 모달 창 main 부분 */}
-        <PostDetails imageUrl={imageUrl} />
+        {modalType === "detail" ? (
+          <PostDetails {...props} />
+        ) : modalType === "management" ? (
+          <ModalPostM remove={removePost} edit={() => setModalType("edit")} />
+        ) : (
+          <PostWrite type="edit" close={closeModal} {...editProps} />
+        )}
       </ModalFrame>
       <Flex
         fd="column"
@@ -66,13 +95,20 @@ const Post = props => {
         {/* 게시글 head 부분 */}
         <Flex jc="space-between" borderBottom="">
           <Flex padding="14px 16px">
-            <Card />
+            <Card userId={userId} />
           </Flex>
 
           <BsThreeDots
+            className="hoverEvent"
             style={{ margin: "0px 12px 0px 0px" }}
             size="20"
             color="#262626"
+            onClick={() => {
+              if (currentUserId === userId) {
+                setModalType("management");
+                openModal();
+              }
+            }}
           />
         </Flex>
 
@@ -94,7 +130,10 @@ const Post = props => {
                 className="iconHoverEvent"
                 color="#000"
                 size="26"
-                onClick={openModal}
+                onClick={() => {
+                  setModalType("detail");
+                  openModal();
+                }}
               />
               <BiShareAlt className="iconHoverEvent" color="#000" size="26" />
             </Flex>
@@ -103,7 +142,7 @@ const Post = props => {
         </Flex>
 
         <Flex jc="flex-start" padding="3px 18px">
-          <Text fontSize="10px">17시간 전</Text>
+          <Text fontSize="10px">{moment(createdAt).fromNow()}</Text>
         </Flex>
         {/* 세번째 줄 :댓글 입력 창 */}
 
@@ -134,7 +173,9 @@ const Post = props => {
   );
 };
 
-Post.defaultProps = {};
+Post.defaultProps = {
+  createdAt: "1996-03-11 10:00:00",
+};
 
 const PostTextarea = styled.textarea`
   color: #262626;

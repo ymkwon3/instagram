@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 // elements
-import { Button, Flex, Image, Text, Textarea } from "../elements";
+import { Button, Flex, Image, Text } from "../elements";
 
 // components
 import Card from "../components/Card";
@@ -16,12 +16,12 @@ import { BiShareAlt } from "react-icons/bi";
 import { FiSmile } from "react-icons/fi";
 import { HiOutlineChat } from "react-icons/hi";
 import { RiBookmarkLine } from "react-icons/ri";
-import { BsEmojiWink } from "react-icons/bs";
+import moment from "moment";
+import 'moment/locale/ko'
 
-import Post from "../components/Post";
 
 const PostDetails = props => {
-  const { imageUrl } = props;
+  const { PostID, content, createdAt, imageUrl, likes, userId } = props;
   const commentRef = React.useRef(null);
 
   const autoGrow = () => {
@@ -53,7 +53,7 @@ const PostDetails = props => {
       >
         {/* header */}
         <Flex height="60px" jc="space-between" borderBottom="1px solid #dbdbdb">
-          <Card padding="14px 16px"></Card>
+          <Card userId={userId} padding="14px 16px"></Card>
           <BsThreeDots
             style={{ margin: "0 16px 0 0" }}
             size="20"
@@ -63,7 +63,7 @@ const PostDetails = props => {
         {/* commentlist */}
         <Flex padding="16px" fd="column" height="100%" jc="start">
           <Flex jc="space-between" height="50px">
-            <Card content="테스트"></Card>
+            <Card userId={userId} content={content}></Card>
             <AiOutlineHeart className="iconHoverEvent" color="#323232" />
           </Flex>
           {/* commentlist */}
@@ -84,23 +84,15 @@ const PostDetails = props => {
         <Flex>
           <Flex ai="center" jc="space-between" padding="16px 16px">
             <Flex jc="start" gap="16px">
-              <AiOutlineHeart
-                className="iconHoverEvent"
-                color="#000"
-                size="26"
-              />
-              <HiOutlineChat
-                className="iconHoverEvent"
-                color="#000"
-                size="26"
-              />
+              <AiOutlineHeart className="iconHoverEvent" color="#000" size="26"/>
+              <HiOutlineChat className="iconHoverEvent" color="#000" size="26"/>
               <BiShareAlt className="iconHoverEvent" color="#000" size="26" />
             </Flex>
             <RiBookmarkLine className="iconHoverEvent" color="#000" size="26" />
           </Flex>
         </Flex>
         <Flex jc="flex-start" padding="3px 18px">
-          <Text fontSize="10px">17시간 전</Text>
+          <Text fontSize="10px">{moment(createdAt).fromNow()}</Text>
         </Flex>
         {/* 댓글 입력 창 */}
 

@@ -5,15 +5,19 @@ import { getAPI, postAPI, deleteAPI, patchAPI } from "../../shared/api";
 
 import { getToken, setToken, removeToken } from "../../shared/localStorage";
 
+
 // actions
 const SET_USER = "SET_USER";
 const LOG_OUT = "LOG_OUT";
 const ID_CHECK = "ID_CHECK";
+const FOLLOW_USER = "FOLLOW_USER";
+
 
 // action creators
-const setUser = createAction(SET_USER, (user) => ({ user }));
-const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const idCheck = createAction(ID_CHECK, (userId) => ({ userId }));
+const setUser = createAction(SET_USER, user => ({ user }));
+const logOut = createAction(LOG_OUT, user => ({ user }));
+const idCheck = createAction(ID_CHECK, userId => ({ userId }));
+const followUser = createAction(FOLLOW_USER, userId => ({ userId }));
 
 const initialState = {
   userInfo: {
@@ -25,30 +29,32 @@ const initialState = {
   is_login: false,
 };
 
+
 // middlewaore actions
-const loginDB = (data) => {
+const loginDB = data => {
   return async function (dispatch, getState, { history }) {
     postAPI("/api/login", data).then(res => {
       setToken(res.token);
-      history.replace('/main')
+      dispatch(loginCheckDB());
+      history.replace("/main");
     });
   };
 };
 
-const singupDB = (data) => {
+const singupDB = data => {
   return async function (dispatch, getState, { history }) {
-    console.log(data);
-
-    postAPI("/api/signUp", data)
+    postAPI("/api/signUp", data).then(res => {
+      alert("회원가입이 완료되었습니다.");
+    });
   };
 };
 
 const loginCheckDB = () => {
   return async function (dispatch, getState, { history }) {
-   // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
+    // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
     getAPI("/api/islogin").then(res => {
       dispatch(setUser(res.userInfo));
-    })
+    });
   };
 };
 
@@ -58,26 +64,46 @@ const logOutDB = () => {
   };
 };
 
-const idCheckDB = (userId) => {
+const idCheckDB = userId => {
   return async function (dispatch, getState, { history }) {
-    postAPI("/api/idCheck", {userId});
+    postAPI("/api/idCheck", { userId });
     // 아직 사용 용도를 몰라 해당 리듀서를 만들진 않았습니다.
   };
 };
+
+// 친구 팔로우
+const followDB = followUser => {
+  return async function (dispatch, getState, { history }) {
+    postAPI("/api/follow", { followUser }).then(res => {
+      alert("팔로우가 완료되었습니다.")
+    });
+  };
+};
+
+// 친구 언팔로우
+const unFollowDB = userId => {
+  return async function (dispatch, getState, { history }) {
+    postAPI("/api/idCheck", { userId });
+    // 아직 사용 용도를 몰라 해당 리듀서를 만들진 않았습니다.
+  };
+};
+
 
 // reducer
 export default handleActions(
   {
     [SET_USER]: (state, action) =>
-      produce(state, (draft) => {
+      produce(state, draft => {
         draft.userInfo = action.payload.user;
         draft.is_login = true;
       }),
     [LOG_OUT]: (state, action) =>
-      produce(state, (draft) => {
-        draft.userInfo = null;
+      produce(state, draft => {
         draft.is_login = false;
         removeToken();
+      }),
+    [FOLLOW_USER]: (state, action) =>
+      produce(state, draft => {
       }),
   },
   initialState
@@ -89,6 +115,7 @@ const actionCreators = {
   loginCheckDB,
   logOutDB,
   idCheckDB,
+  followDB,
 };
 
 export { actionCreators };

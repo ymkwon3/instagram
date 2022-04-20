@@ -8,7 +8,6 @@ const headers = () => {
 };
 axios.defaults.baseURL = "http://3.34.132.47";
 
-
 // axios get api
 const getAPI = async api => {
   return await axios
@@ -24,7 +23,23 @@ const getAPI = async api => {
 // axios post api
 const postAPI = async (api, data = {}) => {
   return await axios
-    .post(`${api}`, {...data}, {headers: headers()})
+    .post(`${api}`, {...data}, { headers: headers()})
+    .then(res => {
+      return res.data;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+// axios post FormData api
+const postFormAPI = async (api, formData) => {
+  return await axios
+    .post(`${api}`, formData, {
+      headers: Object.assign(headers(), {
+        "Content-Type": `multipart/form-data`,
+      }),
+    })
     .then(res => {
       return res.data;
     })
@@ -57,4 +72,4 @@ const patchAPI = async (api, data = {}) => {
     });
 };
 
-export { getAPI, postAPI, deleteAPI, patchAPI };
+export { getAPI, postAPI, deleteAPI, patchAPI, postFormAPI };
