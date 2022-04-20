@@ -16,7 +16,7 @@ import { BsEmojiHeartEyes } from "react-icons/bs";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { MdAttachFile } from "react-icons/md";
 import { BsHeart } from "react-icons/bs";
-
+// 라면
 function Chat({ socket, username, room, setMessageList, messageList }) {
   const [currentMessage, setCurrentMessage] = React.useState("");
   // const [messageList, setMessageList] = React.useState([]);
