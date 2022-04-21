@@ -14,13 +14,19 @@ body {
   background-color: #fafafa;
 }
 
-/* *::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
-} */
+}
 
 .hoverEvent {
   cursor: pointer;
   user-select: none;
+}
+
+.cardHoverEvent:hover {
+  cursor: pointer;
+  user-select: none;
+  background-color: #fafafa;
 }
 
 .iconHoverEvent {

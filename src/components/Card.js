@@ -19,6 +19,7 @@ const Card = (props) => {
     bottomFontSize,
     bottoTextmMargin,
     hoverEvent,
+    className,
     _onClick,
     content,
   } = props;
@@ -41,6 +42,7 @@ const Card = (props) => {
         cursor={hoverEvent}
         margin={margin}
         padding={padding}
+        className={className}
         jc="start"
       >
         <Flex width={size}>
