@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Main from "../pages/Main";
 import Header from "../components/Header";
 import Messenger from "../pages/Messenger";
+import MyPage from "../pages/MyPage";
 import { Flex } from "../elements";
 
 // styles
@@ -35,6 +36,7 @@ function App() {
           <Header />
           <Route path="/main" exact component={Main}></Route>
           <Route path="/messenger" exact component={Messenger}></Route>
+          <Route path="/mypage" exact component={MyPage}></Route>
         </Permit>
       </ConnectedRouter>
     </Flex>

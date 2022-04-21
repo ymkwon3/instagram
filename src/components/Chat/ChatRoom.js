@@ -22,7 +22,7 @@ function Chat({ socket, username, room, setMessageList, messageList, follow }) {
   const sendMessage = async () => {
     // 메세지가 보내질 때까지 기다린다.(정확히는 작성된 메시지가 currentMessage에 저장될 때까지 기다린다.)
     if (currentMessage !== "") {
-      // 빈 메시지 보내지 않는 조건
+      // 빈 메시지 내지 않는 조건
       const messageData = {
         room: room,
         author: username,
