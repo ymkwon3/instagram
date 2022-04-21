@@ -12,6 +12,7 @@ import ModalFrame from "./modal/ModalFrame";
 // pages
 import PostWrite from "../pages/PostWrite";
 import Messenger from "../pages/Messenger";
+import MyPage from "../pages/MyPage";
 
 // react-icons
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -129,8 +130,9 @@ const HeadarIcons = (props) => {
             shape="circle"
             size={24}
             _onClick={() => {
-              dispatch(userActions.logOutDB());
-              history.push("/");
+              // dispatch(userActions.logOutDB());
+              // history.push("/");
+              history.push("/mypage");
             }}
           />
 

@@ -1,8 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-const Image = props => {
-  const { shape, src, size, width, height, margin, paddingTop, _onClick } = props;
+const Image = (props) => {
+  const {
+    shape,
+    src,
+    size,
+    width,
+    height,
+    margin,
+    paddingTop,
+    _onClick,
+    className,
+  } = props;
 
   const styles = {
     src,
@@ -11,10 +21,17 @@ const Image = props => {
     height,
     margin,
     paddingTop,
+    className,
   };
 
   if (shape === "circle") {
-    return <ImageCircle {...styles} onClick={_onClick}></ImageCircle>;
+    return (
+      <ImageCircle
+        {...styles}
+        onClick={_onClick}
+        className={className}
+      ></ImageCircle>
+    );
   }
   if (shape === "square") {
     return (

@@ -21,7 +21,6 @@ const socket = io.connect("http://3.34.132.47:80"); // socket.io 서버 측을 �
 const Messenger = (props) => {
   // 모달창
   const [modalOpen, setModalOpen] = React.useState(false);
-  const dispatch = useDispatch();
   const openModal = () => {
     setModalOpen(true);
   };
@@ -32,18 +31,9 @@ const Messenger = (props) => {
   const user_rooms = useSelector((state) => state.user.userInfo.follow);
   console.log(user_rooms);
 
-  // const [username, setUsername] = React.useState("");
-  // const [room, setRoom] = React.useState("");
   let username = useSelector((state) => state.user.userInfo.userId);
   let [room, setRoom] = React.useState("");
   const [showChat, setShowChat] = React.useState(false);
-
-  const joinRoom = () => {
-    if (username !== "" && room !== "") {
-      socket.emit("join_room", room);
-      setShowChat(true);
-    }
-  };
 
   const openChatRoom = (follow) => {
     setMessageList([]);
@@ -53,7 +43,6 @@ const Messenger = (props) => {
     } else {
       roomNum = follow + username;
     }
-    // let roomNum = (username + follow).split("").sort().reverse().join("");
     setRoom(roomNum);
     console.log(room);
     if (username !== "" && room !== "") {

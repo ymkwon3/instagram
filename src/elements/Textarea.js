@@ -11,6 +11,7 @@ const Textarea = React.forwardRef((props, ref) => {
     _onChange,
     overflow,
     _value,
+    _onKeyPress,
   } = props;
   return (
     <TextareaStyled
@@ -25,6 +26,7 @@ const Textarea = React.forwardRef((props, ref) => {
       onChange={(e) => _onChange(e.target.value)}
       overflow={overflow}
       value={_value}
+      onKeyPress={_onKeyPress}
     ></TextareaStyled>
   );
 });

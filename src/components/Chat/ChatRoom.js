@@ -23,10 +23,10 @@ function Chat({ socket, username, room, setMessageList, messageList }) {
 
   //   const [chatInput, setChatInput] = React.useState("");
   //   const messageRef = React.useRef();
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
     // 메세지가 보내질 때까지 기다린다.(정확히는 작성된 메시지가 currentMessage에 저장될 때까지 기다린다.)
     if (currentMessage !== "") {
-      // 빈 메시지 보내지 않는 조건
+      // 빈 메시지 내지 않는 조건
       const messageData = {
         room: room,
         author: username,
@@ -91,7 +91,7 @@ function Chat({ socket, username, room, setMessageList, messageList }) {
                         <div
                           className="message"
                           id={
-                            username === messageContent.author ? "you" : "other"
+                            username === messageContent.author ? "other" : "you"
                           }
                         >
                           <div>
@@ -139,6 +139,9 @@ function Chat({ socket, username, room, setMessageList, messageList }) {
                     maxLength=""
                     _value={currentMessage}
                     _onChange={setCurrentMessage}
+                    _onKeyPress={(event) => {
+                      event.key === "Enter" && sendMessage(event);
+                    }}
                   ></Textarea>
                   {currentMessage.length >= 1 ? (
                     <>
@@ -147,9 +150,9 @@ function Chat({ socket, username, room, setMessageList, messageList }) {
                           color="rgba(0,149,246,1)"
                           width="50px"
                           textAlign="start"
-                          _onKeyPress={(event) => {
-                            event.key === "Enter" && sendMessage();
-                          }}
+                          // _onKeyPress={(event) => {
+                          //   event.key === "Enter" && sendMessage();
+                          // }}
                           _onClick={() => {
                             sendMessage();
                           }}

@@ -7,6 +7,7 @@ import Home from "../pages/Home";
 import Main from "../pages/Main";
 import Header from "../components/Header";
 import Messenger from "../pages/Messenger";
+import MyPage from "../pages/MyPage";
 import { Flex } from "../elements";
 
 // styles
@@ -16,10 +17,6 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import Permit from "./Permit";
 import { getToken } from "./localStorage";
 
-import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:3001";
-const socket = socketIOClient(ENDPOINT);
-
 function App() {
   // 로그인 항시 체크
   const dispatch = useDispatch();
@@ -28,18 +25,12 @@ function App() {
 
   const sendMessage = () => {
     console.log("Send: ", ref.current.value);
-    socket.emit("chat", "아이디1", ref.current.value);
   };
 
   React.useEffect(() => {
     if (getToken()) {
       dispatch(userActions.loginCheckDB());
     }
-    socket.on("아이디2", message => {
-      console.log("수신")
-      setResponse(message);
-    });
-    return () => socket.disconnect();
   }, []);
 
   return (
@@ -50,10 +41,8 @@ function App() {
           <Header />
           <Route path="/main" exact component={Main}></Route>
           <Route path="/messenger" exact component={Messenger}></Route>
+          <Route path="/mypage" exact component={MyPage}></Route>
         </Permit>
-        <p>It's {response}</p>
-        <input ref={ref}></input>
-        <button onClick={sendMessage}>send</button>
       </ConnectedRouter>
     </Flex>
   );
