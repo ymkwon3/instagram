@@ -20,9 +20,6 @@ import { getToken } from "./localStorage";
 function App() {
   // 로그인 항시 체크
   const dispatch = useDispatch();
-  const [response, setResponse] = React.useState("");
-  const ref = React.useRef("");
-
 
   React.useEffect(() => {
     if (getToken()) {

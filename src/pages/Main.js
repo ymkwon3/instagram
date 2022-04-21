@@ -45,7 +45,7 @@ const Main = props => {
             />
           ))}
         </Flex>
-        <Recommendation />
+        <Recommendation {...userInfo}/>
       </Flex>
     </>
   );

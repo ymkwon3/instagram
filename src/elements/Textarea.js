@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const Textarea = React.forwardRef((props, ref) => {
   const {
+    height,
     rows,
     placeholder,
     padding,
@@ -21,6 +22,7 @@ const Textarea = React.forwardRef((props, ref) => {
       autoCorrect="off"
       placeholder={placeholder}
       lineHeight={lineHeight}
+      height={height}
       bg={bg}
       ref={ref}
       maxLength={maxLength} // new2
@@ -47,7 +49,7 @@ Textarea.defaultProps = {
 
 const TextareaStyled = styled.textarea`
   width: 100%;
-  height: 18px!important;
+  height: ${props => props.height};
   resize: none;
   outline: none;
   border: none;

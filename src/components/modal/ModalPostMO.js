@@ -1,22 +1,16 @@
 import React from "react"
 import { Flex, Text } from "../../elements";
 
-const ModalPostM = (props) => {
-  const {remove, edit, cancel} = props;
+const ModalPostMO = (props) => {
+  const {followCancel, cancel} = props;
 
   return (
     <Flex className="management" fd="column" borderRadius="15px">
-      <Flex height="48px" borderBottom="1px solid #dbdbdb" _onClick={remove}>
-          <Text color="#ed4956">삭제</Text>
-      </Flex>
-      <Flex height="48px" borderBottom="1px solid #dbdbdb" _onClick={edit}>
-          <Text color="#262626">수정</Text>
-      </Flex>
       <Flex height="48px" borderBottom="1px solid #dbdbdb">
-          <Text color="#262626">좋아요 수 숨기기</Text>
+          <Text color="#ed4956">신고</Text>
       </Flex>
-      <Flex height="48px" borderBottom="1px solid #dbdbdb">
-          <Text color="#262626">댓글 기능 해제</Text>
+      <Flex height="48px" borderBottom="1px solid #dbdbdb" _onClick={followCancel}>
+          <Text color="#ed4956">팔로우 취소</Text>
       </Flex>
       <Flex height="48px" borderBottom="1px solid #dbdbdb">
           <Text color="#262626">게시물로 이동</Text>
@@ -37,4 +31,4 @@ const ModalPostM = (props) => {
   )
 }
 
-export default ModalPostM;
+export default ModalPostMO;

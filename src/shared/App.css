@@ -38,6 +38,22 @@ body {
   opacity: 0.5;
 }
 
+.dropDownContent {
+  display: block!important;
+  border-radius: 6px;
+  margin: 230px 170px 0 0;
+  box-shadow: 0 0 5px 1px #eee;
+}
+
+.dropDownContent > div {
+  padding: 8px 16px;
+}
+
+.dropDownContent > div:hover {
+  background-color: #fafafa;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 1000px) {
   .hide {
     display: none !important;

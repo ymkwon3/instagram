@@ -31,7 +31,7 @@ import { history } from "../redux/configureStore";
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
-const Header = (props) => {
+const Header = props => {
   const dispatch = useDispatch();
   const logoClick = () => {
     history.push("/main");
@@ -40,7 +40,7 @@ const Header = (props) => {
   // 나중에 쓰로틀로 유저 찾을 때를 대비해 state로 제작
   const [findUser, setFindUser] = React.useState("");
 
-  const handleFindUser = (e) => {
+  const handleFindUser = e => {
     // 인스타는 애초에 검색기능으로 친구추가하는 일이 없기 때문에, 임시방편으로 검색기능 친구추가를 한거라 따로 없는 유저인지 검사는 안함.
     if (e.key === "Enter") {
       dispatch(userActions.followDB(findUser));
@@ -73,7 +73,7 @@ const Header = (props) => {
             className="input"
             placeholder="검색"
             value={findUser}
-            onChange={(e) => setFindUser(e.target.value)}
+            onChange={e => setFindUser(e.target.value)}
             onKeyDown={handleFindUser}
           ></SearchInput>
           <Flex className="label" width="" height="36px" bg="#efefef">
@@ -90,11 +90,12 @@ const Header = (props) => {
   );
 };
 
-const HeadarIcons = (props) => {
+const HeadarIcons = props => {
   // 모달 창
   // ===============================================================================
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [dropdown, setDropdown] = React.useState(false);
   const dispatch = useDispatch();
   const openModal = () => {
     setModalOpen(true);
@@ -125,14 +126,58 @@ const HeadarIcons = (props) => {
           />
           <RiCompass3Line color="#000" size="26" />
           <AiOutlineHeart color="#000" size="26" />
-          <Image
-            shape="circle"
-            size={24}
-            _onClick={() => {
-              dispatch(userActions.logOutDB());
-              history.push("/");
-            }}
-          />
+          <Flex
+            width="26px"
+            className="dropDownMenu hoverEvent"
+            position="relative"
+            fd="column"
+            _onClick={() => setDropdown(p => !p)}
+          >
+            <Image shape="circle" size={24} />
+            {dropdown ? (
+              <Flex
+                className="dropDownContent"
+                width="230px"
+                position="absolute"
+                fd="column"
+                bg="#fff"
+              >
+                <Flex jc="start" _onClick={() => {
+                    history.push("/mypage");
+                  }}>
+                  <Text color="#262626" fontSize="14px">
+                    프로필
+                  </Text>
+                </Flex>
+                <Flex jc="start">
+                  <Text color="#262626" fontSize="14px">
+                    저장됨
+                  </Text>
+                </Flex>
+                <Flex jc="start">
+                  <Text color="#262626" fontSize="14px">
+                    설정
+                  </Text>
+                </Flex>
+                <Flex jc="start" borderBottom="1px solid #dbdbdb">
+                  <Text color="#262626" fontSize="14px">
+                    계정 전환
+                  </Text>
+                </Flex>
+                <Flex
+                  jc="start"
+                  _onClick={() => {
+                    dispatch(userActions.logOutDB());
+                    history.push("/");
+                  }}
+                >
+                  <Text color="#262626" fontSize="14px">
+                    로그아웃
+                  </Text>
+                </Flex>
+              </Flex>
+            ) : null}
+          </Flex>
 
           <ModalFrame open={modalOpen} close={closeModal}>
             {/* 모달 창 main 부분 */}
