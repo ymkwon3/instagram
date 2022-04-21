@@ -25,8 +25,8 @@ const initialState = {
 const uploadPostDB = formData => {
   return async function (dispatch, getState, { history }) {
     postFormAPI("/api/posts", formData).then(res => {
-      console.log(res);
-      dispatch(uploadPost(res.postList));
+      const list = {...res.postList, userImage : getState().user.userInfo.userImage};
+      dispatch(uploadPost(list));
     });
   };
 };
@@ -42,15 +42,13 @@ const getPostListDB = idList => {
 const editPostDB = (formData, postId) => {
   return async function (dispatch, getState, { history }) {
     postFormAPI(`/api/postsEdit/${postId}`, formData).then(res => {
-      console.log(res);
-      // dispatch(editPost(res.postList));
+      dispatch(editPost(res.postList));
     });
   };
 };
 
 const deletePostDB = postId => {
   return async function (dispatch, getState, { history }) {
-    console.log(postId);
     deleteAPI(`/api/posts/${postId}`).then(res => {
       dispatch(deletePost(postId));
     });
@@ -67,12 +65,15 @@ export default handleActions(
 
     [SET_POST]: (state, action) =>
       produce(state, draft => {
-        draft.postList = action.payload.postList;
+        draft.postList = action.payload.postList.map(value => {
+          const obj = {...value._doc, userImage: value.userImage};
+          return obj;
+        });
       }),
     [SET_LIKECNT]: (state, action) =>
       produce(state, draft => {
         draft.postList = draft.postList.map(v => {
-          if (v.PostId === action.payload.postId) {
+          if (v._id === action.payload.postId) {
             v.likes += action.payload.like ? 1 : -1;
           }
           return v;
@@ -81,7 +82,7 @@ export default handleActions(
     [EDIT_POST]: (state, action) =>
       produce(state, draft => {
         draft.postList = draft.postList.map(p => {
-          if (p.PostId === action.payload.post.PostId) {
+          if (p._id === action.payload.post._id) {
             return action.payload.post;
           }
           return p;
@@ -90,7 +91,7 @@ export default handleActions(
     [DELETE_POST]: (state, action) =>
       produce(state, draft => {
         draft.postList = draft.postList.filter(
-          post => post.PostId !== action.payload.postId
+          post => post._id !== action.payload.postId
         );
       }),
   },

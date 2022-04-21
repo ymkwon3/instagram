@@ -13,13 +13,11 @@ import { useSelector } from "react-redux";
 
 function ModalAddChat() {
   const user_follows = useSelector((state) => state.user?.userInfo.follow);
-  console.log(user_follows);
 
   const formData = [];
   user_follows.forEach((follow, idx) =>
     formData.push({ id: idx, name: follow })
   );
-  console.log(formData);
 
   const [isChecked, setIsChecked] = React.useState(false); // 체크 여부
   const [checkedItems, setCheckedItems] = React.useState(new Set()); // 체크되 요소들

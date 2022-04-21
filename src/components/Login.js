@@ -20,8 +20,6 @@ const Login = (props) => {
   };
 
   const clickLogin = () => {
-    console.log("로그인요청 해야함무라비");
-
     let userId = idRef.current.value;
     let password = pwdRef.current.value;
 

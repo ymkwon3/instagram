@@ -8,21 +8,26 @@ import { CgBookmark } from "react-icons/cg";
 import { RiPriceTag3Line } from "react-icons/ri";
 import { BsSuitHeartFill } from "react-icons/bs";
 
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 import styled from "styled-components";
 
 import Footer from "../components/Footer";
+import ModalFrame from "../components/modal/ModalFrame";
+import PostDetails from "./PostDetails";
 
-const MyPage = (props) => {
-  const post_list = useSelector((state) => state.post.postList);
-  const logined_userInfo = useSelector((state) => state.user.userInfo);
+const MyPage = props => {
+  const post_list = useSelector(state => state.post.postList);
+  const logined_userInfo = useSelector(state => state.user.userInfo);
+
   return (
     <>
       <Flex margin="90px 0px 30px 0px" maxWidth="935px" fd="column">
         <MyPageHeader
           {...logined_userInfo}
-          post_list_count={post_list.length}
+          post_list_count={
+            post_list.filter(v => v.userId === logined_userInfo.userId).length
+          }
         />
         <MyPageTab />
         <MyPagePostList
@@ -40,16 +45,28 @@ export default MyPage;
 const MyPageHeader = ({
   userId,
   userName,
+  userImage,
   follow,
   follower,
   post_list_count,
 }) => {
+  const dispatch = useDispatch();
+  const imageRef = React.useRef(null);
+  const setUserImage = (e) => {
+    const formData = new FormData();
+    formData.append("profile", e.target.files[0])
+    dispatch(userActions.uploadUserImageDB(formData))
+  };
+
   return (
     <>
       {/* Header */}
       <Flex margin="0px 0px 44px 0px">
         <Flex maxWidth="290px">
-          <Image size={150} shape="circle" />
+          <label htmlFor="profile">
+            <Image src={userImage} size={150} shape="circle" />
+          </label>
+          <input onChange={(e) => setUserImage(e)} ref={imageRef} id="profile" type="file" style={{visibility: "hidden", width: "0"}}></input>
         </Flex>
 
         {/*Header 첫번째 줄 */}
@@ -112,7 +129,7 @@ const MyPageHeader = ({
   );
 };
 
-const MyPageTab = (props) => {
+const MyPageTab = props => {
   return (
     <>
       <Flex borderTop="1px solid #dbdbdb">
@@ -140,41 +157,37 @@ const MyPageTab = (props) => {
 };
 
 const MyPagePostList = ({ post_list, logined_userId }) => {
+
   return (
     <>
       <Flex jc="flex-start" gap="28px" flexWrap="wrap">
-        {post_list.map(
-          ({ PostId, content, createdAt, imageUrl, likes, userId }, idx) => {
-            return userId === logined_userId ? (
-              <>
-                <Flex position="relative" width="293px" height="293px">
-                  <Image
-                    className="hoverEvent"
-                    key={PostId}
-                    src={imageUrl}
-                    shape="rectangle"
-                    width="100%"
-                    height="100%"
-                  />
-                  <ImageCover className="hoverEvent">
-                    <Flex height="100%">
-                      <BsSuitHeartFill style={{ fontSize: "24px" }} />
-                      <Text
-                        fontSize="26px"
-                        color="white"
-                        margin="0px 0px 0px 10px"
-                      >
-                        {likes}
-                      </Text>
-                    </Flex>
-                  </ImageCover>
-                </Flex>
-              </>
-            ) : (
-              <></>
-            );
-          }
-        )}
+        {post_list.map((v, idx) => {
+          return v.userId === logined_userId ? (
+            <div key={v._id + idx}>
+              <Flex position="relative" width="293px" height="293px">
+                <Image
+                  className="hoverEvent"
+                  src={v.imageUrl}
+                  shape="rectangle"
+                  width="100%"
+                  height="100%"
+                />
+                <ImageCover className="hoverEvent">
+                  <Flex height="100%">
+                    <BsSuitHeartFill style={{ fontSize: "24px" }} />
+                    <Text
+                      fontSize="26px"
+                      color="white"
+                      margin="0px 0px 0px 10px"
+                    >
+                      {v.likes}
+                    </Text>
+                  </Flex>
+                </ImageCover>
+              </Flex>
+            </div>
+          ) : null;
+        })}
       </Flex>
     </>
   );

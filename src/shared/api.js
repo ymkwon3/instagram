@@ -2,7 +2,6 @@ import axios from "axios";
 import { getToken, setToken } from "./localStorage";
 // import moment from "moment";
 
-// const URL = "https://62515352dfa31c1fbd6c586e.mockapi.io";
 const headers = () => {
   return { authorization: `Bearer ${getToken()}` };
 };

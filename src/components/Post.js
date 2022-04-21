@@ -28,17 +28,18 @@ import ModalPostMO from "./modal/ModalPostMO";
 
 const Post = props => {
   const {
-    PostId,
+    _id,
     content,
     imageUrl,
     createdAt,
     userId,
     currentUserId,
+    userImage,
     likes,
     isLiked,
   } = props;
 
-  const editProps = { imageUrl, userId, PostId, content };
+  const editProps = { imageUrl, userId, _id, content };
   // 모달 여닫기
   const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -53,6 +54,12 @@ const Post = props => {
   };
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const followCancel = () => {
+    if (window.confirm("팔로우를 취소하시겠어요?")) {
+      dispatch(userActions.unFollowDB(userId));
+    }
   };
 
   const autoGrow = () => {
@@ -79,20 +86,20 @@ const Post = props => {
       currentUserId === userId &&
       window.confirm("정말로 게시물을 삭제하시겠습니까?")
     ) {
-      dispatch(postActions.deletePostDB(PostId));
+      dispatch(postActions.deletePostDB(_id));
       closeModal();
     }
   };
 
   const clickLike = () => {
     // 모듈이 다르더라도 액션이 같으면 동시에 실행됨
-    dispatch(userActions.likeDB(PostId));
-    dispatch(postActions.setLike(PostId, true));
+    dispatch(userActions.likeDB(_id));
+    dispatch(postActions.setLike(_id, true));
   };
 
   const clickUnLike = () => {
-    dispatch(userActions.unLikeDB(PostId));
-    dispatch(postActions.setLike(PostId, false));
+    dispatch(userActions.unLikeDB(_id));
+    dispatch(postActions.setLike(_id, false));
   };
 
   return (
@@ -100,11 +107,15 @@ const Post = props => {
       <ModalFrame open={modalOpen} close={closeModal}>
         {/* 모달 창 main 부분 */}
         {modalType === "detail" ? (
-          <PostDetails {...props} isLiked={isLiked}/>
+          <PostDetails {...props} isLiked={isLiked} />
         ) : modalType === "mine" ? (
-          <ModalPostM remove={removePost} edit={() => setModalType("edit")} cancel={closeModal} />
-        ) :modalType === "others" ? (
-          <ModalPostMO cancel={closeModal} />
+          <ModalPostM
+            remove={removePost}
+            edit={() => setModalType("edit")}
+            cancel={closeModal}
+          />
+        ) : modalType === "others" ? (
+          <ModalPostMO followCancel={followCancel} cancel={closeModal} />
         ) : (
           <PostWrite type="edit" close={closeModal} {...editProps} />
         )}
@@ -121,7 +132,7 @@ const Post = props => {
         {/* 게시글 head 부분 */}
         <Flex jc="space-between" borderBottom="">
           <Flex padding="14px 16px">
-            <Card userId={userId} />
+            <Card userId={userId} src={userImage} />
           </Flex>
 
           <BsThreeDots
@@ -133,7 +144,7 @@ const Post = props => {
               if (currentUserId === userId) {
                 setModalType("mine");
                 openModal();
-              }else {
+              } else {
                 setModalType("others");
                 openModal();
               }

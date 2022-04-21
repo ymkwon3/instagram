@@ -24,12 +24,11 @@ import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as userActions } from "../redux/modules/user";
 
 const PostDetails = props => {
-  const { PostId, content, createdAt, imageUrl, likes, userId, currentUserId, isLiked } =
+  const { userImage, _id, content, createdAt, imageUrl, likes, userId, currentUserId, isLiked } =
     props;
   const commentRef = React.useRef(null);
   const dispatch = useDispatch();
   const comments = useSelector(state => state.comment.commentList);
-  
   const autoGrow = () => {
     const padding = 4; // 패딩값
     const lineHeight = 18; // 라인높이
@@ -48,17 +47,17 @@ const PostDetails = props => {
 
   const clickLike = () => {
     // 모듈이 다르더라도 액션이 같으면 동시에 실행됨
-    dispatch(userActions.likeDB(PostId));
-    dispatch(postActions.setLike(PostId, true));
+    dispatch(userActions.likeDB(_id));
+    dispatch(postActions.setLike(_id, true));
   };
 
   const clickUnLike = () => {
-    dispatch(userActions.unLikeDB(PostId));
-    dispatch(postActions.setLike(PostId, false));
+    dispatch(userActions.unLikeDB(_id));
+    dispatch(postActions.setLike(_id, false));
   };
 
   const commentWrite = () => {
-    dispatch(commentActions.uploadCommentDB(PostId, commentRef.current.value));
+    dispatch(commentActions.uploadCommentDB(_id, commentRef.current.value));
   };
 
   const commentDelete = commentId => {
@@ -66,7 +65,7 @@ const PostDetails = props => {
   };
 
   React.useEffect(() => {
-    dispatch(commentActions.getCommentDB(PostId));
+    dispatch(commentActions.getCommentDB(_id));
   }, []);
 
   return (
@@ -82,7 +81,7 @@ const PostDetails = props => {
       >
         {/* header */}
         <Flex height="60px" jc="space-between" borderBottom="1px solid #dbdbdb">
-          <Card userId={userId} padding="14px 16px"></Card>
+          <Card src={userImage} userId={userId} padding="14px 16px"></Card>
           <BsThreeDots
             style={{ margin: "0 16px 0 0" }}
             size="20"
@@ -92,7 +91,7 @@ const PostDetails = props => {
         {/* commentlist */}
         <Flex padding="16px" fd="column" height="100%" jc="start">
           <Flex jc="space-between" height="50px">
-            <Card userId={userId} content={content}></Card>
+            <Card src={userImage} userId={userId} content={content}></Card>
           </Flex>
           {/* commentlist */}
           {comments.map(v => (

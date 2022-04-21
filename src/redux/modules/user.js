@@ -1,7 +1,13 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 
-import { getAPI, postAPI, deleteAPI, patchAPI, putAPI } from "../../shared/api";
+import {
+  getAPI,
+  postAPI,
+  deleteAPI,
+  postFormAPI,
+  putAPI,
+} from "../../shared/api";
 
 import { getToken, setToken, removeToken } from "../../shared/localStorage";
 
@@ -12,19 +18,25 @@ const ID_CHECK = "ID_CHECK";
 const FOLLOW_USER = "FOLLOW_USER";
 const SET_LIKE = "SET_LIKE";
 const UPDATE_LIKE = "UPDATE_LIKE";
+const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 // action creators
 const setUser = createAction(SET_USER, user => ({ user }));
 const setLike = createAction(SET_LIKE, list => ({ list }));
-const updateLike = createAction(UPDATE_LIKE, (postId, isLike) => ({ postId, isLike }));
+const updateLike = createAction(UPDATE_LIKE, (postId, isLike) => ({
+  postId,
+  isLike,
+}));
 const logOut = createAction(LOG_OUT, user => ({ user }));
 const idCheck = createAction(ID_CHECK, userId => ({ userId }));
 const followUser = createAction(FOLLOW_USER, userId => ({ userId }));
+const updateProfile = createAction(UPDATE_PROFILE, imageUrl => ({ imageUrl }));
 
 const initialState = {
   userInfo: {
     userId: "",
     userName: "",
+    userImage: "",
     follower: [], // 유저를 팔로우한 사람 목록
     follow: [], // 유저가 팔로우한 사람 목록
   },
@@ -55,7 +67,6 @@ const loginCheckDB = () => {
   return async function (dispatch, getState, { history }) {
     // 콘솔 확인 후 data 객체 안에 또 다른 key/value로 이루어져 있는지 확인하기
     getAPI("/api/islogin").then(res => {
-      console.log(res);
       dispatch(setUser(res.userInfo));
       dispatch(setLike(res.likePosts));
     });
@@ -85,17 +96,18 @@ const followDB = followUser => {
 };
 
 // 친구 언팔로우
-const unFollowDB = userId => {
+const unFollowDB = unFollowUser => {
   return async function (dispatch, getState, { history }) {
-    postAPI("/api/idCheck", { userId });
-    // 아직 사용 용도를 몰라 해당 리듀서를 만들진 않았습니다.
+    postAPI("/api/unfollow", { unFollowUser }).then(res => {
+      alert("팔로우가 취소되었습니다.");
+    });
   };
 };
 
 const likeDB = postId => {
   return async function (dispatch, getState, { history }) {
     putAPI("/api/like", { postId }).then(res => {
-      dispatch(updateLike(postId, true))
+      dispatch(updateLike(postId, true));
     });
   };
 };
@@ -103,7 +115,16 @@ const likeDB = postId => {
 const unLikeDB = postId => {
   return async function (dispatch, getState, { history }) {
     deleteAPI("/api/unlike", { postId }).then(res => {
-      dispatch(updateLike(postId, false))
+      dispatch(updateLike(postId, false));
+    });
+  };
+};
+
+// 유저 프로필 사진 변경
+const uploadUserImageDB = formData => {
+  return async function (dispatch, getState, { history }) {
+    postFormAPI("/api/userEdit", formData).then(res => {
+      dispatch(updateProfile(res.profile));
     });
   };
 };
@@ -127,13 +148,19 @@ export default handleActions(
       }),
     [UPDATE_LIKE]: (state, action) =>
       produce(state, draft => {
-        if(action.payload.isLike) {
-          draft.likePosts.unshift(action.payload.postId)
-        }else {
-          draft.likePosts = draft.likePosts.filter(v => v !== action.payload.postId);
+        if (action.payload.isLike) {
+          draft.likePosts.unshift(action.payload.postId);
+        } else {
+          draft.likePosts = draft.likePosts.filter(
+            v => v !== action.payload.postId
+          );
         }
       }),
     [FOLLOW_USER]: (state, action) => produce(state, draft => {}),
+    [UPDATE_PROFILE]: (state, action) =>
+      produce(state, draft => {
+        draft.userInfo = {...draft.userInfo, userImage: action.payload.imageUrl}
+      }),
   },
   initialState
 );
@@ -145,8 +172,10 @@ const actionCreators = {
   logOutDB,
   idCheckDB,
   followDB,
+  unFollowDB,
   likeDB,
   unLikeDB,
+  uploadUserImageDB,
 };
 
 export { actionCreators };

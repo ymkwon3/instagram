@@ -22,7 +22,7 @@ import { GoLocation } from "react-icons/go";
 const PostWrite = props => {
   const dispatch = useDispatch();
   const preview = useSelector(state => state.image.preview);
-  const { close, type, PostId, userId, imageUrl, content } = props;
+  const { close, type, _id, userId, imageUrl, content } = props;
   // const is_uploading = useSelector((state) => state.image.uploading);
   const [file, setFile] = React.useState(null);
   const [text, setText] = React.useState(content ? content : "");
@@ -37,7 +37,7 @@ const PostWrite = props => {
     formData.append("imageUrl", file);
     formData.append("content", text);
     if (type === "edit") {
-      dispatch(postActions.editPostDB(formData, PostId));
+      dispatch(postActions.editPostDB(formData, _id));
     } else {
       dispatch(postActions.uploadPostDB(formData));
     }

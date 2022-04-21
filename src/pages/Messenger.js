@@ -1,7 +1,7 @@
 import React from "react";
 
 // elements
-import { Button, Flex, Image, Text, Textarea } from "../elements";
+import { Button, Flex, Text } from "../elements";
 
 // components
 import Card from "../components/Card";
@@ -14,7 +14,7 @@ import { BsPencilSquare, BsChevronDown } from "react-icons/bs";
 import { IoMdPaperPlane } from "react-icons/io";
 
 import io from "socket.io-client";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const socket = io.connect("http://3.34.132.47:80"); // socket.io 서버 측을 클라이언트 측과 연결
 const Messenger = props => {
@@ -29,7 +29,7 @@ const Messenger = props => {
   const [messageList, setMessageList] = React.useState([]);
   const user_rooms = useSelector(state => state.user.userInfo.follow);
 
-  let username = useSelector(state => state.user.userInfo.userId);
+  let userId = useSelector(state => state.user.userInfo.userId);
   let [room, setRoom] = React.useState("");
   let [follow, setFollow] = React.useState("");
   const [showChat, setShowChat] = React.useState(false);
@@ -37,9 +37,9 @@ const Messenger = props => {
   const openChatRoom = follow => {
     setFollow(follow);
     setMessageList([]);
-    const roomNum = username > follow ? username + follow : follow + username;
+    const roomNum = userId > follow ? userId + follow : follow + userId;
     setRoom(roomNum);
-    if (username !== "" && roomNum !== "") {
+    if (userId !== "" && roomNum !== "") {
       socket.emit("join_room", roomNum);
       setShowChat(true);
     }
@@ -105,7 +105,7 @@ const Messenger = props => {
                             fontWeight="600"
                             color="#262626"
                           >
-                            {username}
+                            {userId}
                           </Text>
                           <Text margin="8px">
                             <BsChevronDown
@@ -167,7 +167,7 @@ const Messenger = props => {
             // 클릭 후
             <ChatRoom
               socket={socket}
-              username={username}
+              userId={userId}
               room={room}
               setMessageList={setMessageList}
               messageList={messageList}

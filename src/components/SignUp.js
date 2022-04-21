@@ -30,7 +30,6 @@ const SignUp = (props) => {
   };
 
   const clickSignUp = () => {
-    console.log("회원가입 요청해야함무라비");
     let userId = idRef.current.value;
     let userName = nameRef.current.value;
     let password = pwdRef.current.value;

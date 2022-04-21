@@ -38,10 +38,10 @@ const Main = props => {
         >
           {postList?.map((post, idx) => (
             <Post
-              key={post.PostId}
+              key={post._id}
               {...post}
               currentUserId={userInfo.userId}
-              isLiked={likeList.find(e => e === post.PostId)}
+              isLiked={likeList.find(e => e === post._id)}
             />
           ))}
         </Flex>

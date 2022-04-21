@@ -31,7 +31,6 @@ const Textarea = React.forwardRef((props, ref) => {
       onKeyDown={_onKeyDown}
       overflow={overflow}
       value={_value}
-      onKeyPress={_onKeyPress}
     ></TextareaStyled>
   );
 });

@@ -20,7 +20,6 @@ const initialState = {
 const uploadCommentDB = (postId, comment) => {
   return async function (dispatch, getState, { history }) {
     postAPI(`/api/comments/${postId}`, { comment }).then(res => {
-      console.log(res);
       dispatch(uploadComment(res.createComment));
     });
   };
@@ -29,7 +28,6 @@ const uploadCommentDB = (postId, comment) => {
 const getCommentDB = postId => {
   return async function (dispatch, getState, { history }) {
     getAPI(`/api/comments/${postId}`).then(res => {
-      console.log(res);
       dispatch(getComment(res.commentsList));
     });
   };
@@ -37,9 +35,7 @@ const getCommentDB = postId => {
 
 const deleteCommentDB = commentId => {
   return async function (dispatch, getState, { history }) {
-    console.log(commentId);
     deleteAPI(`/api/comments/${commentId}`).then(res => {
-      console.log(res);
       dispatch(deleteComment(commentId));
     });
   };

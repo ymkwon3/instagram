@@ -23,7 +23,7 @@ const Image = (props) => {
     paddingTop,
     className,
   };
-
+  
   if (shape === "circle") {
     return (
       <ImageCircle
@@ -33,6 +33,18 @@ const Image = (props) => {
       ></ImageCircle>
     );
   }
+
+  if (shape === "input") {
+    return (
+      <ImageInput
+        {...styles}
+        onClick={_onClick}
+        className={className}
+        type="file"
+      ></ImageInput>
+    );
+  }
+
   if (shape === "square") {
     return (
       <AspectOutter>
@@ -88,6 +100,20 @@ const ImageCircle = styled.div`
   background-image: url(${(props) => props.src});
   background-size: cover;
   // margin: 4px;
+`;
+
+const ImageInput = styled.input`
+  --size: ${(props) => props.size}px;
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--size);
+  border: 1px solid #d5d5d5;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  // margin: 4px;
+  &[type="file"]::file-selector-button {
+    display: none;
+  }
 `;
 
 export default Image;

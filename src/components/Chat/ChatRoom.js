@@ -16,7 +16,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { MdAttachFile } from "react-icons/md";
 import { BsHeart } from "react-icons/bs";
 // 라면
-function Chat({ socket, username, room, setMessageList, messageList, follow }) {
+function Chat({ socket, userId, room, setMessageList, messageList, follow }) {
   const [currentMessage, setCurrentMessage] = React.useState("");
   
   const sendMessage = async () => {
@@ -25,7 +25,7 @@ function Chat({ socket, username, room, setMessageList, messageList, follow }) {
       // 빈 메시지 내지 않는 조건
       const messageData = {
         room: room,
-        author: username,
+        author: userId,
         message: currentMessage,
         time:
           new Date(Date.now()).getHours() +
@@ -81,7 +81,7 @@ function Chat({ socket, username, room, setMessageList, messageList, follow }) {
                           key={idx}
                           className="message"
                           id={
-                            username === messageContent.author ? "other" : "you"
+                            userId === messageContent.author ? "other" : "you"
                           }
                         >
                           <div>

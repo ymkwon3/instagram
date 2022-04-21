@@ -4,15 +4,13 @@ import React from "react";
 import styled from "styled-components";
 
 // elements
-import { Button, Flex, Image, Text, Textarea } from "../elements";
+import { Flex, Image, Text } from "../elements";
 
 // components
 import ModalFrame from "./modal/ModalFrame";
 
 // pages
 import PostWrite from "../pages/PostWrite";
-import Messenger from "../pages/Messenger";
-import MyPage from "../pages/MyPage";
 
 // react-icons
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -29,7 +27,7 @@ import {
 } from "react-icons/ri";
 
 import { history } from "../redux/configureStore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
 const Header = props => {
@@ -105,7 +103,7 @@ const HeadarIcons = props => {
     setModalOpen(false);
   };
   //==============================================================================
-
+  const userInfo = useSelector(state => state.user.userInfo);
   return (
     <>
       <Flex flex="1 0 127px">
@@ -134,7 +132,7 @@ const HeadarIcons = props => {
             fd="column"
             _onClick={() => setDropdown(p => !p)}
           >
-            <Image shape="circle" size={24} />
+            <Image src={userInfo.userImage} shape="circle" size={24} />
             {dropdown ? (
               <Flex
                 className="dropDownContent"

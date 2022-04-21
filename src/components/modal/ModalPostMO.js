@@ -4,6 +4,8 @@ import { Flex, Text } from "../../elements";
 const ModalPostMO = (props) => {
   const {followCancel, cancel} = props;
 
+    
+
   return (
     <Flex className="management" fd="column" borderRadius="15px">
       <Flex height="48px" borderBottom="1px solid #dbdbdb">

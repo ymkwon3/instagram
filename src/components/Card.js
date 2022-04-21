@@ -25,7 +25,6 @@ const Card = (props) => {
   } = props;
   const styles = {
     size,
-    src,
     margin,
     padding,
     topFontSize,
@@ -46,7 +45,7 @@ const Card = (props) => {
         jc="start"
       >
         <Flex width={size}>
-          <Image shape="circle" {...styles} />
+          <Image src={src} shape="circle" {...styles} />
         </Flex>
 
         <Flex
