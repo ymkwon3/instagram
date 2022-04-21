@@ -24,6 +24,7 @@ import "moment/locale/ko";
 import { useDispatch } from "react-redux";
 import ModalPostM from "./modal/ModalPostM";
 import PostWrite from "../pages/PostWrite";
+import ModalPostMO from "./modal/ModalPostMO";
 
 const Post = props => {
   const {
@@ -36,6 +37,7 @@ const Post = props => {
     likes,
     isLiked,
   } = props;
+
   const editProps = { imageUrl, userId, PostId, content };
   // 모달 여닫기
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -99,8 +101,10 @@ const Post = props => {
         {/* 모달 창 main 부분 */}
         {modalType === "detail" ? (
           <PostDetails {...props} isLiked={isLiked}/>
-        ) : modalType === "management" ? (
-          <ModalPostM remove={removePost} edit={() => setModalType("edit")} />
+        ) : modalType === "mine" ? (
+          <ModalPostM remove={removePost} edit={() => setModalType("edit")} cancel={closeModal} />
+        ) :modalType === "others" ? (
+          <ModalPostMO cancel={closeModal} />
         ) : (
           <PostWrite type="edit" close={closeModal} {...editProps} />
         )}
@@ -127,7 +131,10 @@ const Post = props => {
             color="#262626"
             onClick={() => {
               if (currentUserId === userId) {
-                setModalType("management");
+                setModalType("mine");
+                openModal();
+              }else {
+                setModalType("others");
                 openModal();
               }
             }}

@@ -8,6 +8,8 @@ import { Button, Flex, Text } from "../elements";
 import Card from "./Card";
 
 const Recommendation = props => {
+  const {userId, userName} = props; 
+  console.log(userName)
   return (
     <>
       <Flex
@@ -19,7 +21,7 @@ const Recommendation = props => {
         className="hide"
       >
         <Flex>
-          <Card userId="ymkwon3" name="아이유" size={56}></Card>
+          <Card userId={userId} name={userName} size={56}></Card>
           <Button bg="transparent" color="#0095f6" fontSize="12px" width="50px">
             전환
           </Button>
