@@ -8,9 +8,11 @@ const Textarea = React.forwardRef((props, ref) => {
     padding,
     bg,
     maxLength,
+    lineHeight,
     _onChange,
     overflow,
     _value,
+    _onKeyDown,
   } = props;
   return (
     <TextareaStyled
@@ -18,11 +20,13 @@ const Textarea = React.forwardRef((props, ref) => {
       autoComplete="off"
       autoCorrect="off"
       placeholder={placeholder}
+      lineHeight={lineHeight}
       bg={bg}
       ref={ref}
       maxLength={maxLength} // new2
       padding={padding}
       onChange={(e) => _onChange(e.target.value)}
+      onKeyDown={_onKeyDown}
       overflow={overflow}
       value={_value}
     ></TextareaStyled>
@@ -35,6 +39,7 @@ Textarea.defaultProps = {
   padding: "0",
   bg: "",
   maxLength: 0, // new2
+  lineHeight: "24px",
   overflow: "",
   _onChange: () => {},
   _value: "",
@@ -42,11 +47,12 @@ Textarea.defaultProps = {
 
 const TextareaStyled = styled.textarea`
   width: 100%;
+  height: 18px!important;
   resize: none;
   outline: none;
   border: none;
   font-size: 16px;
-  line-height: 24px;
+  line-height: ${props => props.lineHeight};
   padding: ${(props) => props.padding};
   background-color: ${(props) => props.bg};
   padding: ${(props) => props.padding};

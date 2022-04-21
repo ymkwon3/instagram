@@ -17,11 +17,9 @@ import io from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 
 const socket = io.connect("http://3.34.132.47:80"); // socket.io 서버 측을 클라이언트 측과 연결
-// const socket = io.connect("http://localhost:3001");
-const Messenger = (props) => {
+const Messenger = props => {
   // 모달창
   const [modalOpen, setModalOpen] = React.useState(false);
-  const dispatch = useDispatch();
   const openModal = () => {
     setModalOpen(true);
   };
@@ -29,35 +27,20 @@ const Messenger = (props) => {
     setModalOpen(false);
   };
   const [messageList, setMessageList] = React.useState([]);
-  const user_rooms = useSelector((state) => state.user.userInfo.follow);
-  console.log(user_rooms);
+  const user_rooms = useSelector(state => state.user.userInfo.follow);
 
-  // const [username, setUsername] = React.useState("");
-  // const [room, setRoom] = React.useState("");
-  let username = useSelector((state) => state.user.userInfo.userId);
+  let username = useSelector(state => state.user.userInfo.userId);
   let [room, setRoom] = React.useState("");
+  let [follow, setFollow] = React.useState("");
   const [showChat, setShowChat] = React.useState(false);
 
-  const joinRoom = () => {
-    if (username !== "" && room !== "") {
-      socket.emit("join_room", room);
-      setShowChat(true);
-    }
-  };
-
-  const openChatRoom = (follow) => {
+  const openChatRoom = follow => {
+    setFollow(follow);
     setMessageList([]);
-    let roomNum = "";
-    if (username > follow) {
-      roomNum = username + follow;
-    } else {
-      roomNum = follow + username;
-    }
-    // let roomNum = (username + follow).split("").sort().reverse().join("");
+    const roomNum = username > follow ? username + follow : follow + username;
     setRoom(roomNum);
-    console.log(room);
-    if (username !== "" && room !== "") {
-      socket.emit("join_room", room);
+    if (username !== "" && roomNum !== "") {
+      socket.emit("join_room", roomNum);
       setShowChat(true);
     }
   };
@@ -65,10 +48,11 @@ const Messenger = (props) => {
   return (
     <>
       <Flex
-        margin="80px 0px 0px 0px"
+        margin="60px 0px 0px 0px"
         maxWidth="935px"
-        // overflow="hidden"
-        height="88vh"
+        height="100%"
+        width="100%"
+        padding="20px"
         borderRadius="4px"
       >
         {/* Messenger 왼쪽  */}
@@ -79,6 +63,7 @@ const Messenger = (props) => {
           jc="flex-start"
           fd="column"
           border="1px solid rgba(219,219,219,1)"
+          bg="#fff"
         >
           {/* Messenger 왼쪽 바디 Header */}
           <Flex
@@ -115,16 +100,18 @@ const Messenger = (props) => {
                           overflow="hidden"
                           whiteSpace="nowrap"
                         >
-                          <Text fontSize="16px" fontWeight="600" color="black">
-                            유저닉네임
+                          <Text
+                            fontSize="16px"
+                            fontWeight="600"
+                            color="#262626"
+                          >
+                            {username}
                           </Text>
                           <Text margin="8px">
                             <BsChevronDown
-                              style={{
-                                fontWeight: "600",
-                                fontSize: "26px",
-                                color: "black",
-                              }}
+                              color="#000"
+                              size="20"
+                              style={{ marginTop: "5px" }}
                             />
                           </Text>
                         </Flex>
@@ -140,17 +127,9 @@ const Messenger = (props) => {
           </Flex>
 
           {/*  Messenger 왼쪽 바디 친구 목록 */}
-          <Flex
-            height="100%"
-            overflow="auto"
-            flex="0 0 auto"
-            margin="8px 0px 0px 0px"
-          >
+          <Flex height="100%" overflow="auto" margin="8px 0px 0px 0px">
             <Flex
               height="100%"
-              flex="1 1 auto"
-              minHeight="0"
-              minWidth="0"
               fd="column"
               jc="flex-start"
               overscrollBehavior="contain"
@@ -163,11 +142,9 @@ const Messenger = (props) => {
                     hoverEvent="pointer"
                     padding="8px 20px"
                     size={56}
-                    name="마지막 메시지를 표시하여 주세요"
-                    topFontSize="18px"
+                    topFontSize="14px"
                     topFontWeight="400"
-                    bottomfontSize="18px"
-                    bottoTextmMargin="6px 0px 0px 0px"
+                    className="cardHoverEvent"
                     _onClick={() => openChatRoom(follow)}
                   />
                 );
@@ -178,16 +155,13 @@ const Messenger = (props) => {
         {/* Messenger 오른쪽  */}
 
         <Flex
-          flex="1 1 auto"
-          width="583"
-          minHeight="0"
-          minWidth="0"
+          width="583px"
           height="100%"
-          border="1px solid rgba(219,219,219,1)"
-          borderLeft="0px solid rgba(219,219,219,1)"
-          position="relative"
+          border="1px solid #dbdbdb"
+          borderLeft="0px"
           fd="column"
           jc="flex-start"
+          bg="#fff"
         >
           {showChat ? (
             // 클릭 후
@@ -197,19 +171,25 @@ const Messenger = (props) => {
               room={room}
               setMessageList={setMessageList}
               messageList={messageList}
+              follow={follow}
             />
           ) : (
             //클릭전
             <Flex padding="24px" height="100%" fd="column" flex="0 0 auto">
               <IoMdPaperPlane style={{ fontSize: "96px" }} />
-              <Text margin="16px 0px 0px 0px" fontSize="26px" color="black">
+              <Text
+                margin="12px 0px 0px 0px"
+                fontSize="22px"
+                fontWeight="300"
+                color="#262626"
+              >
                 내 메시지
               </Text>
-              <Text margin="16px 0px 0px 0px" lineHeight="18px">
+              <Text margin="10px 0px 0px 0px" lineHeight="16px">
                 친구나 그룹에 비공개 사진과 메시지를 보내보세요.
               </Text>
               <Button
-                margin="16px 0px 0px 0px"
+                margin="24px 0px 0px 0px"
                 padding="5px 9px"
                 fontSize="14px"
                 _onClick={openModal}
